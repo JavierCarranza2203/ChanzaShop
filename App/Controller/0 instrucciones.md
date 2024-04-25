@@ -1,0 +1,1 @@
+# En esta carpeta va a ir toda la lógica relacionada con realizar las peticiones al servidor

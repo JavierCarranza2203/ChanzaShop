@@ -1,0 +1,1 @@
+# En esta carpeta va a ir todo lo relacionado con lo visual.
