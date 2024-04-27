@@ -1,34 +1,18 @@
 <?php
+    require_once("User.php");
 
     $url = 'localhost:3000/';
     $userName = $_POST['username'];
     $password = $_POST['password'];
     $action = $_POST['action'];
 
-    $User = [
-        'Name' => "Desconocido",
-        'Rol' => "Desconocido",
-        'IsLogged' => false
-    ];
-
     header('Content-Type: application/json');
 
     if($action === 'login') {
         try {
-            if($userName == "Chanza Admin" && $password == "chanzaAdmin_2024*") {
-                $User['Name'] = "Administrador";
-                $User['Rol'] = "admin";
-                $User['IsLogged'] = true;
-            }
-            else {
-                $url .= "login?username=" . urlencode($userName) . "&password=" . urlencode($password);
+            if(empty($userName) || empty($password)) throw new UnexpectedValueException('Ingrese su usuario y contraseña', 401);
 
-                $response = json_decode(file_get_contents($url));
-
-                $User['Name'] = $response['Name'];
-                $User['Rol'] = $response['Rol'];
-                $User['IsLogged'] = $response['IsLogged'];
-            }
+            $User = User::Login($userName, $password);
 
             if($User['IsLogged']) {
                 $_SESSION[md5('User')] = serialize($User);
@@ -36,14 +20,14 @@
                 http_response_code(200);
                 echo json_encode($User);
             }
-            else {
-                http_response_code(401);
-                echo json_encode("El usuario no se encuentra");
-            }
+        }
+        catch(UnexpectedValueException $e)  {
+            http_response_code($e->getCode());
+            echo json_encode($e->getMessage());
         }
         catch(Exception $e) {
             http_response_code(500);
-            echo json_encode($e->getMessage());
+            echo json_encode("Ocurrió un error no esperado");
         }
     }
     else if('getUser') {
