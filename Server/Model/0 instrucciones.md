@@ -1,0 +1,1 @@
+# En esta carpeta va a ir toda la deficinión de clases, sin métodos. Puras propiedades (Tal cual en la base de datos).
