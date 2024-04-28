@@ -43,7 +43,7 @@
         private static function UserToJson(string $name, string $role, bool $isLogged) {
             return [
                 'Nombre' => $name,
-                'IsLogged' => $isLogged,
+                'estaLoggeado' => $isLogged,
                 'TipoUsuario' => $role
             ];
         } 
