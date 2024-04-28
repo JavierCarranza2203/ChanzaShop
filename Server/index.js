@@ -4,6 +4,7 @@ import mysql2 from 'mysql2';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { User } from './Model/UserModel.js';
+import { Product } from './Model/ProductModel.js';
 
 const server = express();
 const port = 3000;
@@ -74,6 +75,26 @@ server.get('/login', (req, res)=>{
 });
 
 //get product by id
+server.get("/getProductById", (req, res)=>{
+    const query = 'CALL getProductByID(?)';
+    const productId = req.query.id;
+
+    if(productId) {
+        connection.query(query, [productId] , (err, response) =>{
+
+            if(!response[0][0]) {
+                res.status(404).json({ error: 'El producto no es existe' });
+                return; 
+            }
+
+            const data = JSON.parse(JSON.stringify(response[0][0]));
+
+            const product = new Product(data);
+
+            res.json(product.ToJSON());
+        });
+    }
+});
 
 //get products by category
 

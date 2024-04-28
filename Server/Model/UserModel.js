@@ -14,4 +14,10 @@ export class User {
             "Rol": this.role
         };
     }
+
+    static ToUser(json) {
+        if (typeof json === 'string') {
+            return new User(json["Nombre"], json["Rol"]);
+        }
+    }
 }
