@@ -14,7 +14,7 @@
 
             $User = User::Login($userName, $password);
 
-            if($User['IsLogged']) {
+            if($User['estaLoggeado']) {
                 $_SESSION[md5('User')] = serialize($User);
 
                 http_response_code(200);
@@ -33,7 +33,7 @@
     else if('getUser') {
         $loggedUser = unserialize($_SESSION[md5('User')]);
 
-        if($loggedUser['isLogged'] == true) {
+        if($loggedUser['estaLoggedo'] == true) {
             http_response_code(200);
             echo json_encode($loggedUser);
         }

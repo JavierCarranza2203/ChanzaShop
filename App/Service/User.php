@@ -33,7 +33,7 @@
                     throw new UnexpectedValueException($decodedResponse['error'], $httpCode);
                 }
                 else {
-                    throw new Exception($decodedResponse, $httpCode);
+                    throw new Exception($decodedResponse['error'], $httpCode);
                 }
             }
 
