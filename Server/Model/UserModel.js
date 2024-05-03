@@ -1,5 +1,4 @@
 export class User {
-
     name;
     role;
 

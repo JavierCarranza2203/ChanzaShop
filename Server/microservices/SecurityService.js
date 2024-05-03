@@ -11,5 +11,10 @@ export class SecurityService {
     static IsValidPassword(password) {
         return typeof password === 'string' && /^[a-zA-Z0-9*_]+$/.test(password);
     }
-    
+
+    static IsValidAdministratorUser(User, isLogged) {
+        if(SecurityService.IsValidString(User.name) && SecurityService.IsValidString(User.role)) {
+            return(User.name === "Chanza Administrator" && User.role === "admin" && isLogged);
+        }
+    }
 }

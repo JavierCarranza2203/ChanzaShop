@@ -5,6 +5,7 @@ export class Product {
     price;
     category;
     inStock;
+    quantity
 
     constructor(data) {
         this.id = data["IdProducto"];
@@ -13,6 +14,7 @@ export class Product {
         this.price = data["Precio"];
         this.category = data["Categoria"];
         this.inStock = data["enStock"];
+        this.quantity =data["Cantidad"];
     }
 
     ToJSON() {
@@ -22,7 +24,8 @@ export class Product {
             "Descripcion": this.description,
             "PrecioUnitario": this.price,
             "Categoria": this.category,
-            "Existencia": this.inStock
+            "Existencia": this.inStock,
+            "Cantidad":this.quantity
         }
     }
 }
