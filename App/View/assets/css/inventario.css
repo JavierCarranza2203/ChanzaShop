@@ -1,0 +1,18 @@
+@import url('./base/reset-syle.css');
+@import url('./header.css');
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 12.2% 87.8%;
+}
+
+.content {
+    padding: 24px 50px;
+}
+
+.title {
+    font-size: 3.5vh;
+    font-weight: bold;
+}

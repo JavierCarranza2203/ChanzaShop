@@ -1,0 +1,10 @@
+@import url('./base/reset-syle.css');
+@import url('./header.css');
+@import url('./footer.css');
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 12.2% 67.49% 20.31%;
+}

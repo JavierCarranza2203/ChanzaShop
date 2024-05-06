@@ -1,80 +1,46 @@
-/* Estilos generales */
+@import url('./base/reset-syle.css');
+@import url('./header.css');
+@import url('./footer.css');
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Establece una altura mínima del cuerpo para ocupar toda la altura de la ventana */
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 12.2% 67.49% 20.31%;
 }
 
-/* Estilos del header */
-.header {
-    display: flex;
-    justify-content: space-between; /* Distribuye los elementos a lo largo del eje principal */
-    align-items: center; /* Centra verticalmente los elementos */
-    background-color: #fff;
-    color: #fff;
-    padding: 10px;
-    border-bottom: 5px solid black;
-}
-
-.logo img {
-    width: 150px;
-    height: auto;
-}
-
-/* Estilos del carrusel */
 .carousel {
     margin: 20px auto;
-    width: 85%; /* Ajusta el ancho del carrusel según tu preferencia */
-}
-
-.product-row {
+    width: 90%;
+    max-height: 100%;
     display: flex;
-    padding: 30px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.product {
-    flex: 0 0 33.33%; /* Ajusta el ancho de cada producto en el carrusel */
-    border: 1px solid #ccc;
-    padding: 20px;
-    box-sizing: border-box;
+.carousel > h2 {
+    font-size: 1.2em;
 }
 
-.carousel-btn {
-    float: right;
-}
-
-/* Estilos del pie de página */
-footer {
-    background-color: #001933; /* Cambia el color de fondo del pie de página según tu preferencia */
-    color: #fff;
-    padding: 15px;
-    border-top: 2px solid black;
-    margin-top: auto; /* Mueve el pie de página hacia la parte inferior */
-}
-
-.footer-logo img {
-    width: 150px;
-    height: auto;
-}
-
-/* Estilos de las imágenes del header */
-.logo {
-    display: flex; /* Usa flexbox para alinear el logo y las imágenes */
-    align-items: center; /* Centra verticalmente los elementos */
-}
-
-/* Estilos de las imágenes del header */
-.header-links {
+.products-container {
     display: flex;
-    align-items: center;
-    margin-right: 20px; /* Agrega espacio entre el logo y los enlaces */
+    justify-content: space-between;
+    height: 40%;
+    gap: 2vw;
 }
 
-.header-links img {
-    width: 50px; /* Ajusta el tamaño de las imágenes según sea necesario */
-    height: auto;
-    margin-left: 10px; /* Ajusta el espacio entre las imágenes */
+.products-container__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    gap: 1.5%;
+}
+
+.products-container__row-item{
+    border: 1px solid #000;
+}
+
+.products-container > a{
+    font-size: 2.5vw;
+    align-self: center;
 }

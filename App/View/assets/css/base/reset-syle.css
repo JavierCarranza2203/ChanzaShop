@@ -137,7 +137,7 @@ width: initial;
 /* Configuramos la tipografía para toda la web */
 body {
     font-family: system-ui, -apple-system;
-    font-size: 15px;
+    font-size: 18px;
     color: inherit;
     /* opcional */
     line-height: 1.4em;

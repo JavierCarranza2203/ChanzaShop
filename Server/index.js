@@ -189,25 +189,33 @@ server.get("/getBestProductsByCategory", (req, res) => {
     }
 });
 
-server.post("/adminService", (req, res) => {
+server.post("/adminService/:action", async (req, res) => {
     try {
         const username = req.query.username;
         const islogged = req.query.islogged;
         const userrole = req.query.role;
+        const action = req.params.action;
+        let message = "Respuesta desconocida";
 
-        const adminService = new AdminService();
+        const adminService = new AdminService(username, islogged, userrole);
 
-        adminService.getAllProducts()
-        .then(products => {
-            res.json(products);
-        })
-        .catch(error => {
-            throw new Error(error.message);
-        });
+        switch(action){
+            case 'getAllProducts':
+                message = await AdminService.handlePromise(adminService.getAllProducts());
+            break;
+            case 'addProduct':
+                message = await AdminService.handlePromise(adminService.addProduct());
+            break;
+            default:
+                res.status(404).json({ error: 'Error de lado del cliente. La acción no se reconoce' });
+                return;
+        }
+
+        res.json(message);
     }
     catch(e) {
         console.error('Error en la aplicación:', e.message);
-            res.status(500).json({ error: 'Error interno en el servidor. Por favor ,inténtalo de nuevo más tarde.' });
+        res.status(500).json({ error: 'Error interno en el servidor. Por favor ,inténtalo de nuevo más tarde.' });
     }
 });
 

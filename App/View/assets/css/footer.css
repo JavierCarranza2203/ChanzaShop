@@ -1,0 +1,11 @@
+footer {
+    background-color: #001933;
+    color: #fff;
+    padding: 15px;
+    border-top: 2px solid black;
+}
+
+footer > img {
+    width: auto;
+    max-height: 100%;
+}

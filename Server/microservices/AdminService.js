@@ -11,12 +11,22 @@ export class AdminService {
         this._strUserRole = userrole;
     }
 
+    static async handlePromise(adminPromise) {
+        try {
+            const response = await adminPromise;
+
+            return response;
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+
     getConnection() {
-        if(!(SecurityService.IsValidString(this._strUsername) && this._blnIsLogged && SecurityService.IsValidString(this._strUserRole))) {
+        if (!(SecurityService.IsValidString(this._strUsername) && this._blnIsLogged == 1 && SecurityService.IsValidString(this._strUserRole))) {
             throw new Error("Uno de los valores no es permitido")
         }
 
-        if(!SecurityService.IsValidAdministratorUser(new User(this._strUsername, this._strUserRole), this._blnIsLogged)) { throw Error("El usuario no es permitido"); }
+        if (!SecurityService.IsValidAdministratorUser(new User(this._strUsername, this._strUserRole), this._blnIsLogged)) { throw Error("El usuario no es permitido"); }
 
         return mysql2.createConnection({
             host: 'localhost',
@@ -27,17 +37,34 @@ export class AdminService {
     }
 
     //add product
-    addProduct(product){
+    addProduct(product) {
         return new Promise((resolve, reject) => {
-            const query = "CALL addProduct(?, ?, ?, ?, ?)";
+            const query = "CALL addNewProduct(?, ?, ?, ?, ?)";
 
-            this.getConnection().query(query, [product.name])
+            this.getConnection().query(query, [product.name, product.descrption, product.price, product.category, product.inStock], 
+                (error, result) => {
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve({ message: "El producto se ha agregado" });
+                    }
+            })
         });
     }
 
     //delete product
-    deleteProduct(idProduct) { 
-        const query = "CALL deleteProduct(?)";
+    deleteProduct(idProduct) {
+        return new Promise((resolve, reject) => {
+            const query = "CALL deleteProduct(?)";
+
+            this.getConnection().query(query, [idProduct], (error, result) => {
+                if(error){ 
+                    reject(error);
+                } else {
+                    resolve({ message: "El producto se ha eliminado" });
+                }
+            });
+        })
     }
 
     //update product
@@ -45,8 +72,8 @@ export class AdminService {
     //get all products
     getAllProducts() {
         return new Promise((resolve, reject) => {
-            const query = "SELECT * FROM producto";
-    
+            const query = "SELECT * FROM allProducts";
+
             this.getConnection().query(query, (error, result) => {
                 if (error) {
                     reject(error);
@@ -54,7 +81,7 @@ export class AdminService {
                     const data = result;
 
                     let productsList = [];
-    
+
                     for (let i = 0; i < data.length; i++) {
                         let product = new Product(data[i]);
 

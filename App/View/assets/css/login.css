@@ -1,7 +1,7 @@
 @import url('./base/reset-syle.css');
 @import url('./header.css');
 
-.container {
+body {
     width: 100vw;
     height: 100vh;
     display: grid;
