@@ -36,7 +36,6 @@ export class AdminService {
         });
     }
 
-    //add product
     addProduct(product) {
         return new Promise((resolve, reject) => {
             const query = "CALL addNewProduct(?, ?, ?, ?, ?)";
@@ -52,7 +51,6 @@ export class AdminService {
         });
     }
 
-    //delete product
     deleteProduct(idProduct) {
         return new Promise((resolve, reject) => {
             const query = "CALL deleteProduct(?)";
@@ -67,9 +65,21 @@ export class AdminService {
         })
     }
 
-    //update product
+    updateProduct(product) {
+        return new Promise((resolve, reject) => {
+            const query = "CALL updateProduct(?, ?, ?, ?, ?)";
 
-    //get all products
+            this.getConnection().query(query, [product.name, product.descrption, product.price, product.category, product.inStock], 
+                (error, result) => {
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve({ message: "El producto se ha actualizado" });
+                    }
+            })
+        });
+    }
+
     getAllProducts() {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM allProducts";
@@ -94,11 +104,39 @@ export class AdminService {
         });
     }
 
-    //get best products in a time instance
+    getBestProducts(startDate, finalDate) {
+        return new Promise((resolve, reject) => {
+            const query = "CALL getBestProducts(?, ?)";
 
-    //get worst products in a time instance
+            this.getConnection().query(query, [startDate, finalDate], (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    const data = result;
 
-    //get annual sales report
+                    let productsList = [];
 
-    //get number of registered users
+                    for (let i = 0; i < data.length; i++) {
+                        let product = new Product(data[i]);
+
+                        productsList[i] = product;
+                    }
+
+                    resolve(productsList);
+                }
+            });
+        });
+    }
+
+    getWorstProducts(startDate, finalDate) {
+        
+    }
+
+    getAnnualSalesReport() {
+
+    }
+
+    getRegisteredUsersByMonth() {
+
+    }
 }

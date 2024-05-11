@@ -17,4 +17,22 @@ export class SecurityService {
             return(User.name === "Chanza Administrator" && User.role === "admin" && isLogged);
         }
     }
+
+    static IsValidEmail(email) {
+        return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+    }
+
+    static IsValidPhone(phone) {
+        return typeof phone === 'string' && /^\+(?:[0-9] ?){6,14}[0-9]$/.test(phone);
+    }
+
+    static IsValidUser(user) {
+        return (SecurityService.IsValidString(user.name) && 
+                SecurityService.IsValidString(user.lastname) && 
+                SecurityService.IsValidString(user.surname) &&
+                SecurityService.IsValidEmail(user.email) &&
+                SecurityService.IsValidPhone(user.phone) &&
+                SecurityService.IsValidString(user.user) &&
+                SecurityService.IsValidPassword(user.password)); 
+    }
 }

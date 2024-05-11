@@ -22,12 +22,10 @@ const connection = mysql2.createConnection({
     database: 'chanza_db'
 });
 
-//Start server
 server.listen(port, (req, res) => {
     console.log("Servidor corriendo en el puerto: " + port);
 });
 
-//Test server connection
 server.get('/test_connection', (req, res) => {
     try {
         connection.connect();
@@ -44,7 +42,6 @@ server.get('/test_connection', (req, res) => {
     }
 });
 
-//get user credentials
 server.get('/login', (req, res) => {
     try {
         const { username, password } = req.query;
@@ -86,7 +83,6 @@ server.get('/login', (req, res) => {
     }
 });
 
-//get product by id
 server.get("/getProductById", (req, res) => {
     try {
         const query = 'CALL getProductByID(?)';
@@ -117,7 +113,6 @@ server.get("/getProductById", (req, res) => {
     }
 });
 
-//get products by category
 server.get("/getProductsByCategory", (req, res) => {
     try {
         const query = 'CALL getProductsByCategory(?)';
@@ -153,7 +148,6 @@ server.get("/getProductsByCategory", (req, res) => {
     }
 });
 
-//get top 6 products
 server.get("/getBestProductsByCategory", (req, res) => {
     try {
         const query = 'CALL getBestProductsByCategory(?)';
@@ -219,7 +213,6 @@ server.post("/adminService/:action", async (req, res) => {
     }
 });
 
-//Process exceptions
 process.on('unhandledRejection', (error, promise) => {
     console.log('Error en este código: ', promise);
     console.log("==================================");
