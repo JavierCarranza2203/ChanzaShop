@@ -8,7 +8,8 @@ CREATE TABLE Producto(
     Nombre VARCHAR(80) NOT NULL,
     Descripcion VARCHAR(255) NOT NULL,
     Precio DOUBLE NOT NULL,
-    IdCategoria INT, 
+    IdCategoria INT,
+    enStock TINYINT NOT NULL,
     FOREIGN KEY (IdCategoria) REFERENCES Categoria(IdCategoria)
 );
 
@@ -18,7 +19,9 @@ CREATE TABLE Cliente(
     ApellidoPaterno VARCHAR(30) NOT NULL,
     ApellidoMaterno VARCHAR(30) NOT NULL,
     Email VARCHAR(30) NOT NULL,
-    Telefono VARCHAR(12) NOT NULL
+    Telefono VARCHAR(12) NOT NULL,
+    Usuario VARCHAR(30) NOT NULL,
+    Password VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE Venta(
