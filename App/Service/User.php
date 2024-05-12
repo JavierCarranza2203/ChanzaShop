@@ -11,32 +11,32 @@
                     $User = self::UserToJson("Administrador", "admin", true);
                 }
             }
-            // else {
-            //     $curl = curl_init("localhost:3000/login?username=" . urlencode($userName) . "&password=" . urlencode($password));
+            else {
+                $curl = curl_init("localhost:3000/login?username=" . urlencode($userName) . "&password=" . urlencode($password));
 
-            //     if(!$curl) throw new Exception("Error al intentar conectarse a la API");
+                if(!$curl) throw new Exception("Error al intentar conectarse a la API");
 
-            //     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            //     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-            //     $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-            //     $decodedResponse = json_decode($response, true);
+                $decodedResponse = json_decode($response, true);
 
-            //     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            //     curl_close($curl);
+                curl_close($curl);
 
-            //     if($httpCode >= 200 && $httpCode < 300) {
-            //         $User = self::UserToJson($decodedResponse['Nombre'], $decodedResponse['Rol'], true);
-            //     }
-            //     else if($httpCode == 401){
-            //         throw new UnexpectedValueException($decodedResponse['error'], $httpCode);
-            //     }
-            //     else {
-            //         throw new Exception($decodedResponse['error'], $httpCode);
-            //     }
-            // }
+                if($httpCode >= 200 && $httpCode < 300) {
+                    $User = self::UserToJson($decodedResponse['Nombre'], $decodedResponse['Rol'], true);
+                }
+                else if($httpCode == 401){
+                    throw new UnexpectedValueException($decodedResponse['error'], $httpCode);
+                }
+                else {
+                    throw new Exception($decodedResponse['error'], $httpCode);
+                }
+            }
 
             return $User;
         }
