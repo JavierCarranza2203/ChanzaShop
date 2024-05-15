@@ -16,20 +16,22 @@
             <i class="fa-solid fa-circle-user"></i>
         </div>
     </header>
-    <form class="form">
+    <form id="loginForm" class="form" action="UserService.php" method="post">
         <img src="./assets/icons/background-login.png">
 
         <div class="form__inputs">
             <h1 class="form__h1">INICIAR SESIÓN</h1>
 
-            <input type="text" name="txtUsuario" id="txtUsuario" placeholder="Usuario">
-            <input type="text" name="txtPassword" id="txtPassword" placeholder="Contraseña">
+            <input type="text" name="username" id="txtUsuario" placeholder="Usuario">
+            <input type="password" name="password" id="txtPassword" placeholder="Contraseña">
             <a href="#" class="first-link">¿Olvidó su contraseña?</a>
 
-            <button>¡Ingresar ahora!</button>
+            <button type="submit">¡Ingresar ahora!</button>
 
-            <a href="#" class="last-link">¿Olvidó su contraseña?</a>
+            <a href="crearcuenta.html" class="last-link">Registrese aquí</a>
         </div>
+        <input type="hidden" name="action" value="login">
     </form>
-</body>
+
+    <script src="login.js"></script>
 </html>

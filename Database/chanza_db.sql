@@ -28,7 +28,7 @@ CREATE TABLE Venta(
     IdVenta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     IdCliente INT,
     Fecha DATE,
-    Hora TIME
+    Hora TIME,
     FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente)
 );
 
