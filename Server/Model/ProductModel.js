@@ -28,4 +28,9 @@ export class Product {
             "Cantidad":this.quantity
         }
     }
+
+    static ToProduct(json) {
+        return new Product(json["Numero"], json["Nombre"], json["Descripcion"], json["Precio"], json["Categoria"],
+            json["enStock"], json["Cantidad"]);
+    }
 }

@@ -36,21 +36,51 @@ export class Customer {
         });
     }
 
-    buyOrder(orderId) {
-        
+    buyOrder(order) {
+        return new Promise((resolve, reject) => {
+            if(!SecurityService.IsValidNumber(idOrder)) { reject("¡El ID no es correcto!"); }
+
+            const query = "CALL buyOrder(?)";
+
+            connection.query(query, [idOrder], (error, results) => {
+                if(error) { 
+                    reject(error); 
+                } else{
+                    resolve({ mensaje: "¡La cuenta se ha creado!" });
+                }
+            });
+        });
     }
 
-    saveShoppingCar(order) {
-        
+    getOrderById(idOrder, connection) {
+        return new Promise((resolve, reject) => {
+            if(!SecurityService.IsValidNumber(idOrder)) { reject("¡El ID no es correcto!"); }
+
+            const query = "CALL getOrderById(?)";
+
+            connection.query(query, [idOrder], (error, results) => {
+                if(error) { 
+                    reject(error); 
+                } else{
+                    resolve({ mensaje: "¡La cuenta se ha creado!" });
+                }
+            });
+        });
     }
 
-    getOrderById() {
+    getAllOrdersByUserId(idUser) {
+        return new Promise((resolve, reject) => {
+            if(!SecurityService.IsValidNumber(idUser)) { reject("¡El ID no es correcto!"); }
 
+            const query = "CALL getAllOrdersByUserId(?)";
+
+            connection.query(query, [idUser], (error, results) => {
+                if(error) { 
+                    reject(error); 
+                } else{
+                    resolve({ mensaje: "¡La cuenta se ha creado!" });
+                }
+            });
+        });
     }
-
-    getAllOrders() {
-
-    }
-
-    
 }

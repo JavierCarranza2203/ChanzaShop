@@ -195,11 +195,24 @@ server.post("/adminService/:action", async (req, res) => {
 
         switch(action){
             case 'getAllProducts':
-                message = await AdminService.handlePromise(adminService.getAllProducts());
-            break;
+                    message = await AdminService.handlePromise(adminService.getAllProducts());
+                break;
             case 'addProduct':
-                message = await AdminService.handlePromise(adminService.addProduct());
-            break;
+                    message = await AdminService.handlePromise(adminService.addProduct());
+                break;
+            case 'deleteProduct':
+                    const idProduct = req.query.idProduct;
+                    message = await AdminService.handlePromise(adminService.deleteProduct(idProduct));
+                break;
+            case 'updateProduct':
+                    message = await AdminService.handlePromise(adminService.updateProduct());
+                break;
+            case 'getAllProducts':
+                    message = await AdminService.handlePromise(adminService.getAllProducts());
+                break;
+            case 'getBestProducts':
+                    message = await AdminService.handlePromise(adminService.getBestProducts());
+                break;
             default:
                 res.status(404).json({ error: 'Error de lado del cliente. La acción no se reconoce' });
                 return;
