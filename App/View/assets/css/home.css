@@ -33,11 +33,12 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
-    gap: 1.5%;
+    gap: 1.5%;    
 }
 
 .products-container__row-item{
     border: 1px solid #000;
+    
 }
 
 .products-container > a{
