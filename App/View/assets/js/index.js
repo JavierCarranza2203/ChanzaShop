@@ -3,19 +3,24 @@ import { ObtenerMejoresProductos } from "./functions/peticiones.js";
 
 const btnMiPerfil = document.getElementById('btnMiPerfil');
 const contenedorCalzado = document.getElementById('contenedorCalzado');
+const contenedorVapes = document.getElementById('contenedorVapes');
 
 document.addEventListener('DOMContentLoaded', async ()=>{
     let listaProductosCalzado = await ObtenerMejoresProductos('calzado');
+    let listaProductosVape = await ObtenerMejoresProductos('vapes');
 
     if(listaProductosCalzado) {
         listaProductosCalzado.forEach(producto => {
             console.log(producto)
             agregarProductoParaMostrar(producto.Imagen, producto.Nombre, contenedorCalzado)
         });
+
+        listaProductosVape.forEach(vape => {
+            agregarProductoParaMostrar(vape.Imagen, vape.Nombre, contenedorVapes);
+        });
     }
     else {
-        alert('error');
-        console.log('adios');
+        
     }
 });
 
