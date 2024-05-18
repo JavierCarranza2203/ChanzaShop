@@ -1,6 +1,23 @@
-import { ObtenerUsuarioLoggeado } from "./functions/peticiones.js";
+import { agregarProductoParaMostrar } from "./functions/componentes.js";
+import { ObtenerMejoresProductos } from "./functions/peticiones.js";
 
 const btnMiPerfil = document.getElementById('btnMiPerfil');
+const contenedorCalzado = document.getElementById('contenedorCalzado');
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+    let listaProductosCalzado = await ObtenerMejoresProductos('calzado');
+
+    if(listaProductosCalzado) {
+        listaProductosCalzado.forEach(producto => {
+            console.log(producto)
+            agregarProductoParaMostrar(producto.Imagen, producto.Nombre, contenedorCalzado)
+        });
+    }
+    else {
+        alert('error');
+        console.log('adios');
+    }
+});
 
 btnMiPerfil.addEventListener('click', async () => {
     const data = await ObtenerUsuarioLoggeado();

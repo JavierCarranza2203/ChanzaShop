@@ -1,5 +1,4 @@
 export async function AgregarProductoEnCarrito(container, productName, productImageSrc, productQuantity, productPrice) {
-    
     const productDiv = document.createElement('div');
     productDiv.className = 'product-container';
 
@@ -36,4 +35,20 @@ export async function AgregarProductoEnCarrito(container, productName, productIm
     productDiv.appendChild(deleteButton);
 
     container.appendChild(productDiv);
+}
+
+export async function agregarProductoParaMostrar(imgSrc, id, container) {
+    const contenedorProducto = document.createElement('div');
+    contenedorProducto.classList.add('products-container__row-item');
+
+    const link = document.createElement('a');
+
+    const imgElement = document.createElement('img');
+    imgElement.src = './View/img/' + imgSrc + '.png'
+
+    link.appendChild(imgElement);
+
+    contenedorProducto.appendChild(link);
+
+    container.appendChild(contenedorProducto);
 }

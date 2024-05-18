@@ -16,22 +16,21 @@
             <a href="login.html"><i class="fa-solid fa-circle-user"></i></a>
         </div>
     </header>
-    <form id="loginForm" class="form" action="UserService.php" method="post">
+    <form id="loginForm" class="form">
         <img src="./assets/icons/background-login.png">
 
         <div class="form__inputs">
             <h1 class="form__h1">INICIAR SESIÓN</h1>
 
-            <input type="text" name="username" id="txtUsuario" placeholder="Usuario">
-            <input type="password" name="password" id="txtPassword" placeholder="Contraseña">
+            <input type="text" id="txtUsuario" placeholder="Usuario">
+            <input type="password" id="txtPassword" placeholder="Contraseña">
             <a href="#" class="first-link">¿Olvidó su contraseña?</a>
 
             <button type="submit">¡Ingresar ahora!</button>
 
             <a href="crearcuenta.html" class="last-link">Registrese aquí</a>
         </div>
-        <input type="hidden" name="action" value="login">
     </form>
 
-    <script src="login.js"></script>
+    <script src="assets/js/login.js"></script>
 </html>

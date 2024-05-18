@@ -5,9 +5,11 @@ export class Product {
     price;
     category;
     inStock;
-    quantity
+    quantity;
+    img;
 
     constructor(data) {
+        console.log(data)
         this.id = data["IdProducto"];
         this.name = data["Nombre"];
         this.description = data["Descripcion"];
@@ -15,6 +17,7 @@ export class Product {
         this.category = data["Categoria"];
         this.inStock = data["enStock"];
         this.quantity =data["Cantidad"];
+        this.img = data["nombreImg"];
     }
 
     ToJSON() {
@@ -25,7 +28,8 @@ export class Product {
             "PrecioUnitario": this.price,
             "Categoria": this.category,
             "Existencia": this.inStock,
-            "Cantidad":this.quantity
+            "Cantidad":this.quantity,
+            "Imagen": this.img
         }
     }
 

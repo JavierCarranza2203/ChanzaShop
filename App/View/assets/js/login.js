@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
     
     const loginForm = document.getElementById('loginForm'); // Obtén el formulario de inicio de sesión por su ID
+    const txtUsuario = document.getElementById('txtUsuario');
+    const txtContrasenia = document.getElementById('txtPassword');
 
     // Agrega un event listener para el evento 'submit' del formulario
     loginForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         // Crea un objeto FormData para recopilar los datos del formulario
-        const formData = new FormData(loginForm);
+        const formData = new FormData();
+        formData.append('username', txtUsuario.value);
+        formData.append('password', txtContrasenia.value);
+        formData.append('action', 'login');
 
         // Realiza una solicitud POST al servidor con los datos del formulario
         fetch('http://localhost/ChanzaShop/App/Service/UserService.php', {

@@ -17,3 +17,16 @@ export async function ObtenerUsuarioLoggeado() {
         return false;
     }
 }
+
+export async function ObtenerMejoresProductos(category) {
+    const response = await fetch('http://localhost:3000/getBestProductsByCategory?category=' + category);
+
+    if(response.ok) {
+        const productos = await response.json();
+
+        return productos;
+    }
+    else {
+        return false;
+    }
+}
