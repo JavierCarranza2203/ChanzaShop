@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Car</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="https://kit.fontawesome.com/f8571caff0.js" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Dos columnas de tamaño igual */
+            height: 85vh;
+            /* Ocupar toda la altura de la pantalla */
+        }
+
+        .column1 {
+            width: 40vw;
+            padding: 15px;
+        }
+
+
+        .container1 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Dos columnas de tamaño igual */
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        #total {
+            border-top-width: 1px;
+            border-color: black;
+            border-style: solid;
+            padding-top: 10px;
+        }
+
+        #header2column1 {
+            text-align: center;
+            /* Centrar horizontalmente */
+            font-size: 36px;
+            /* Aumentar tamaño de la letra */
+            font-weight: bold;
+            /* Hacer negrita */
+            margin-top: 30px;
+            margin-bottom: 45px;
+
+        }
+
+        .column1-button {
+            color: white;
+            margin-left: 2vh;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        
+
+        #anuncio {
+            background-color: pink;
+            font-weight: bold;
+            margin-top: 30px;
+            padding: 10px;
+
+
+        }
+
+
+
+        .column2 {
+            width: 55vw;
+            border-width: 2px;
+            border-color: gray;
+            border-style: solid;
+            margin: 30px;
+        }
+        .producto{
+            background-color: rgb(215, 204, 204);
+            font-weight: bold;
+        }
+
+
+
+        .column2 ol {
+    padding: 0;
+    list-style: none;
+}
+
+.column2 .producto {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.column2 .producto img {
+    width: 70px; /* Ajusta el tamaño de la imagen según lo necesites */
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.column2 .producto p {
+    flex-grow: inline-block;
+    margin: 0;  
+    margin-right: 10px; /* Añade separación a la derecha */
+
+}
+
+.column2 .producto .column2-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+}
+
+.column2 .producto .precio {
+    margin-right: 20px;
+}
+.producto #btnRemover {
+    background-color: transparent; /* Elimina el fondo azul */
+    border: none; /* Elimina el borde */
+    color: black; /* Ajusta el color del texto */
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+li{
+    margin: 10px;
+}
+
+        
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="/ChanzaShop/App/"><img src="assets/icons/chanza_logo.png" alt="Logo" style="width: 100px; height: 60px;"></a>    
+
+        <div class="header__icons-container">
+            <a href="shopping-car.html"> <i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="login.html"><i class="fa-solid fa-circle-user"></i></a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="column1">
+            <h2 id="header2column1"><i class="fa-solid fa-cart-shopping"></i>Mis Productos</h2>
+            <div class="container1">
+                <div>
+                    Subtotal:
+                </div>
+                <div>
+                    $
+                </div>
+            </div>
+            <div class="container1">
+                <div>
+                    Precio de entrega:
+                </div>
+                <div>
+                    $
+                </div>
+            </div>
+            <div class="container1" id="total">
+                <div>
+                    Total:
+                </div>
+                <div>
+                    $
+                </div>
+            </div>
+            <div class="container1">
+                <button class="column1-button" style="background-color: red;">Cancelar compra</button>
+                <button class="column1-button" style="background-color: rgb(34, 179, 34);">Realizar compra</button>
+            </div>
+            <div id="anuncio">
+                Importante: <br>
+                <br>
+                Por el momento no contamos con pago con tarjeta. Por lo tanto todos los pagos deberan ser en efectivo.
+            </div>
+        </div>
+        <div class="column2">
+            <ol>
+                <li class="producto">
+                    <img src="imagen1.jpg" alt="Imagen del producto" class="imagenproducto">
+                    <p>Producto 1</p>
+                    Cantidad:
+                    <button class="column2-button" id="btnDecrementar">-</button>
+                    <span class="cantidad">1</span>
+                    <button class="column2-button" id="btnIncrementar">+</button>
+                    <span class="precio">Precio : $10.00</span>
+                    <button class="column2-button" id="btnRemover"> <img src="assets/icons/trash.png" alt="eliminar">
+                        </button>
+
+                </li>
+
+            </ol>
+            
+        </div>
+        <body>
+
+</html>

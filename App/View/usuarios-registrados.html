@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios Registrados</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="https://kit.fontawesome.com/f8571caff0.js" crossorigin="anonymous"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            display:contents;
+        }
+
+        .titulo {
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .filter-container{
+            display:flex;
+            font-weight: bold;
+        }
+        #fechaInicio{
+            margin-left: 30px;
+        }
+        #fechaFinal{
+            margin-left: 30px;
+        }
+        button{
+            margin-left: 30px;
+            font-weight: bold;
+            border-width: 2px;
+            border-color: black;
+            border-style: solid;
+            color: black;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="/ChanzaShop/App/"><img src="assets/icons/chanza_logo.png" alt="Logo"
+                style="width: 100px; height: 60px;"></a>
+
+        <div class="header__icons-container">
+            <a href="usuarios-registrados.html"> <i class="fa-solid fa-chart-simple"></i></a>
+            <a href="productos-mas-vendidos.html"> <i class="fa-solid fa-chart-pie"></i></a>
+            <a href="inventory.html"> <i class="fa-solid fa-table-list"></i></a>
+            <a href="shopping-car.html"> <i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="login.html"><i class="fa-solid fa-circle-user"></i></a>
+        </div>
+    </header>
+    <div class="titulo">
+        <h1><i class="fa-solid fa-chart-simple"></i>Usuarios registrados</h1>
+    </div>
+    <div class="usuarios-registrados">
+        <div class="filter-container">
+            <label for="startDate" id="fechaInicio">Fecha de inicio:</label>
+            <input type="date" id="startDate">
+            <label for="endDate" id="fechaFinal">Fecha de fin:</label>
+            <input type="date" id="endDate">
+            <button onclick="updateChart()">Aplicar</button>
+        </div>
+        <canvas id="miGrafica" width="1000" height="300"></canvas>
+    </div>
+
+    <body>
+
+        <script>
+            // Datos iniciales
+            const labels = ["2024-05-01", "2024-05-08", "2024-05-15", "2024-05-22"];
+            const data = [10, 20, 5, 13];
+    
+            let miCanvas = document.getElementById("miGrafica").getContext("2d");
+    
+            var chart = new Chart(miCanvas, {
+    type: "bar",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Usuarios registrados",
+            backgroundColor: "red",
+            data: data
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: 'black' // Color de las escalas en negro
+                }
+            },
+            x: {
+                ticks: {
+                    color: 'black' // Color de las escalas en negro
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    font: {
+                        size: 16,
+                    }
+                } // Posiciona la leyenda abajo
+            }
+        }
+    }
+});
+    
+            function updateChart() {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+    
+                if (startDate && endDate) {
+                    // Filtrar los datos basados en las fechas seleccionadas
+                    const filteredData = labels.map((label, index) => {
+                        if (label >= startDate && label <= endDate) {
+                            return { date: label, value: data[index] };
+                        }
+                        return null;
+                    }).filter(item => item !== null);
+    
+                    // Actualizar los datos del gráfico
+                    chart.data.labels = filteredData.map(item => item.date);
+                    chart.data.datasets[0].data = filteredData.map(item => item.value);
+                    chart.update();
+                }
+            }
+        </script>
+
+</html>
