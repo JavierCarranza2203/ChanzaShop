@@ -51,10 +51,6 @@ if (isset($_POST['action'])) {
     } elseif ($action === 'getUser') {
         // Maneja la acción 'getUser'
         try {
-            // Simula un inicio de sesión
-            $User = User::Login('as', 'as');
-            $_SESSION[md5('User')] = serialize($User);
-
             // Verifica si hay una sesión válida
             if (isset($_SESSION[md5('User')])) {
                 // Obtiene el usuario de la sesión

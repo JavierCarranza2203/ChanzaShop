@@ -64,7 +64,7 @@ server.get('/login', (req, res) => {
                 const data = JSON.parse(JSON.stringify(result[0]));
 
                 if(data["Password"] == password) {
-                    const userFound = new User(data["Usuario"], "custom");
+                    const userFound = new User(0, data["Usuario"], "custom");
 
                     res.json(userFound.ToJSON());
                 }
