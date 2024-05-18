@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2024 a las 18:29:35
+-- Tiempo de generación: 18-05-2024 a las 19:57:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -48,7 +48,7 @@ FROM
     producto P ON P.IdProducto = DV.IdProducto JOIN
     categoria C ON C.IdCategoria = P.IdCategoria
 WHERE 
-	C.Nombre = 'calzado'
+	C.Nombre = category
 GROUP BY 
 	P.Nombre
 ORDER BY
@@ -170,6 +170,7 @@ INSERT INTO `detalledeventa` (`IdProducto`, `IdVenta`, `Cantidad`) VALUES
 (3, 1, 1),
 (4, 1, 7),
 (7, 1, 6),
+(8, 1, 5),
 (2, 2, 7),
 (5, 2, 3),
 (6, 2, 3);
@@ -195,13 +196,14 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`IdProducto`, `Nombre`, `Descripcion`, `Precio`, `IdCategoria`, `enStock`, `nombreImg`) VALUES
-(1, 'Vape de fresa', 'descripcion', 100, 1, 1, ''),
-(2, 'Vapes de sandia', 'descripcion2', 150, 1, 1, ''),
-(3, 'Vape de mango', 'descripcion3', 120, 1, 0, ''),
+(1, 'Vape de fresa', 'descripcion', 100, 1, 1, '11'),
+(2, 'Vapes de sandia', 'descripcion2', 150, 1, 1, '12'),
+(3, 'Vape de mango', 'descripcion3', 120, 1, 0, '13'),
 (4, 'Tenis nike 1', 'Tenis nike 1', 2000, 2, 1, '1'),
 (5, 'Tenis nike 2', 'Tenis nike 2', 2500, 2, 1, '2'),
 (6, 'Tenis nike 3', 'Tenis nike 3', 2400, 2, 1, '3'),
-(7, 'Tenis nike 4', 'Tenis nike 4', 1900, 2, 1, '4');
+(7, 'Tenis nike 4', 'Tenis nike 4', 1900, 2, 1, '4'),
+(8, 'Vape', 'Vape', 70, 1, 1, '10');
 
 -- --------------------------------------------------------
 
@@ -290,7 +292,7 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`
