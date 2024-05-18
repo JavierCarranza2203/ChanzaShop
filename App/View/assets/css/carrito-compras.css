@@ -1,0 +1,39 @@
+@import url('./base/reset-syle.css');
+@import url('header.css');
+
+body{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 12.2% 87.8%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    grid-template-rows: 20% 1fr 25%;
+    grid-template-areas: 
+                "title orderDetails"
+                "orderPriceInfo orderDetails"
+                "important orderDetails";
+    padding: 16px;
+    align-items: center;
+}
+
+.title{
+    grid-area: title;
+    text-align: center;
+    font-size: 2em;
+}
+
+.order-info{
+    background-color: aquamarine;
+    width: 60%;
+}
+
+.order-container{
+    height: 95%;
+    width: 100%;
+    grid-area: orderDetails;
+    background-color: aqua;
+}
