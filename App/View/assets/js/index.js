@@ -1,5 +1,5 @@
 import { agregarProductoParaMostrar } from "./functions/componentes.js";
-import { ObtenerMejoresProductos } from "./functions/peticiones.js";
+import { ObtenerMejoresProductos, ObtenerUsuarioLoggeado } from "./functions/peticiones.js";
 
 const btnMiPerfil = document.getElementById('btnMiPerfil');
 const contenedorCalzado = document.getElementById('contenedorCalzado');
@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
 btnMiPerfil.addEventListener('click', async () => {
     const data = await ObtenerUsuarioLoggeado();
+    console.log(data)
 
-    if(!data) {
+    if(data) {
         window.location.href = 'http://localhost/ChanzaShop/App/View/login.html';
     }
     else {
