@@ -3,7 +3,7 @@ export async function ObtenerUsuarioLoggeado() {
     const data = new FormData();
     data.append('action', 'getUser');
 
-    const response = await fetch("../Service/UserService.php", {
+    const response = await fetch("./Service/UserService.php", {
         method: "POST",
         body: data
     });

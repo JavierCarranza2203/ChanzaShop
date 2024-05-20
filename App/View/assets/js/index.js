@@ -28,7 +28,7 @@ btnMiPerfil.addEventListener('click', async () => {
     const data = await ObtenerUsuarioLoggeado();
     console.log(data)
 
-    if(data) {
+    if(!data) {
         window.location.href = 'http://localhost/ChanzaShop/App/View/login.html';
     }
     else {
