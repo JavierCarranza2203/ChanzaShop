@@ -30,3 +30,29 @@ export async function ObtenerMejoresProductos(category) {
         return false;
     }
 }
+
+export async function ObtenerProductos(category) {
+    const response = await fetch('http://localhost:3000/getProductsByCategory?category=' + category);
+
+    if(response.ok) {
+        const productos = await response.json();
+
+        return productos;
+    }
+    else {
+        return false;
+    }
+}
+
+export async function ObtenerProducto(id) {
+    const response = await fetch('http://localhost:3000/getProductById?id=' + id);
+
+    if(response.ok) {
+        const productos = await response.json();
+
+        return productos;
+    }
+    else {
+        return false;
+    }
+}

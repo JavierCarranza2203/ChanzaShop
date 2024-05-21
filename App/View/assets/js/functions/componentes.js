@@ -52,3 +52,18 @@ export async function agregarProductoParaMostrar(imgSrc, id, container) {
 
     container.appendChild(contenedorProducto);
 }
+
+export async function agregarProductoParaMostrar2(imgSrc, id, container) {
+    const contenedorProducto = document.createElement('div');
+    contenedorProducto.classList.add('products-container__row-item');
+    const link = document.createElement('a');
+
+    const imgElement = document.createElement('img');
+    imgElement.src = 'img/' + imgSrc + '.png'
+
+    link.appendChild(imgElement);
+
+    contenedorProducto.appendChild(link);
+
+    container.appendChild(contenedorProducto);
+}

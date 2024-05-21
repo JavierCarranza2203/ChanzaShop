@@ -54,6 +54,7 @@ body {
     align-self: center;
 }
 
+
 .products-container__row-item:hover{
     transform: scale(1.05); /* Aumentar tamaño del producto */
     box-shadow: 0 0 8px 4px #bebebe; /* Aumentar el tamaño de la sombra */
