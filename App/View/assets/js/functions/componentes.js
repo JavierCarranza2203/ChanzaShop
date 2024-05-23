@@ -58,6 +58,17 @@ export async function agregarProductoParaMostrar2(imgSrc, id, container) {
     contenedorProducto.classList.add('products-container__row-item');
     const link = document.createElement('a');
 
+
+
+
+
+    link.href=`producto.html?id=${id}`;
+
+
+
+
+
+    
     const imgElement = document.createElement('img');
     imgElement.src = 'img/' + imgSrc + '.png'
 

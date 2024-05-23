@@ -48,9 +48,9 @@ export async function ObtenerProducto(id) {
     const response = await fetch('http://localhost:3000/getProductById?id=' + id);
 
     if(response.ok) {
-        const productos = await response.json();
+        const producto = await response.json();
 
-        return productos;
+        return producto;
     }
     else {
         return false;
