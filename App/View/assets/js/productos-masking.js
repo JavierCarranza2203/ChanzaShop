@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     if(listaProductosVape) {
 
         listaProductosVape.forEach(vape => {
-            agregarProductoParaMostrar2(vape.Imagen, vape.Imagen, contenedorVapes);
+            agregarProductoParaMostrar2(vape.Imagen, vape.Numero, contenedorVapes);
         });
     }
     else {

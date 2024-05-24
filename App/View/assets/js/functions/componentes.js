@@ -40,8 +40,9 @@ export async function AgregarProductoEnCarrito(container, productName, productIm
 export async function agregarProductoParaMostrar(imgSrc, id, container) {
     const contenedorProducto = document.createElement('div');
     contenedorProducto.classList.add('products-container__row-item');
-
     const link = document.createElement('a');
+
+    link.href=`View/producto.html?id=${id}`;
 
     const imgElement = document.createElement('img');
     imgElement.src = './View/img/' + imgSrc + '.png'
@@ -58,17 +59,8 @@ export async function agregarProductoParaMostrar2(imgSrc, id, container) {
     contenedorProducto.classList.add('products-container__row-item');
     const link = document.createElement('a');
 
-
-
-
-
     link.href=`producto.html?id=${id}`;
 
-
-
-
-
-    
     const imgElement = document.createElement('img');
     imgElement.src = 'img/' + imgSrc + '.png'
 

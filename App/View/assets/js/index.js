@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     if(listaProductosCalzado) {
         listaProductosCalzado.forEach(producto => {
             console.log(producto)
-            agregarProductoParaMostrar(producto.Imagen, producto.Nombre, contenedorCalzado)
+            agregarProductoParaMostrar(producto.Imagen, producto.Imagen, contenedorCalzado)
         });
 
         listaProductosVape.forEach(vape => {
-            agregarProductoParaMostrar(vape.Imagen, vape.Nombre, contenedorVapes);
+            agregarProductoParaMostrar(vape.Imagen, vape.Imagen, contenedorVapes);
         });
     }
     else {

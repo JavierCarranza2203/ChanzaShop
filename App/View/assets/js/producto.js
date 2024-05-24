@@ -4,26 +4,6 @@ import { ObtenerProducto, ObtenerUsuarioLoggeado } from "./functions/peticiones.
 const btnMiPerfil = document.getElementById('btnMiPerfil');
 const contenedorVapes = document.getElementById('contenedorVapes');
 
-// document.addEventListener('DOMContentLoaded', async ()=>{
-//     let productoVape = await ObtenerProducto('1');
-
-//     if(productoVape) {
-
-//             agregarProductoParaMostrar2(productoVape.Imagen, productoVape.Nombre, contenedorVapes);
-//     }
-//     else {
-        
-//     }
-// });
-
-
-
-
-
-
-
-
-
 
 document.addEventListener('DOMContentLoaded', async ()=>{
     const urlParams=new URLSearchParams(window.location.search);
@@ -31,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     if(productId) {
         const productDetails= await ObtenerProducto(productId);
         if(productDetails){
+            console.log(productDetails);
             mostrarDetallesDetallesDelProducto(productDetails);
         }
         else{
@@ -48,13 +29,15 @@ function mostrarDetallesDetallesDelProducto(product){
     <h1>${product.Nombre}</h1>
     <img src="img/${product.Imagen}.png" alt="${product.Nombre}">
     <p>${product.Descripcion}</p>
-    <p>Precio: $${product.Precio}</p>
+    <p>Precio: $${product.PrecioUnitario}</p>
     <p>Categoría: ${product.Categoria}</p>
-    <p>Estado: ${product.enStock}</p>
-    <p>Cantidad en stock: ${product.Cantidad}</p>
+    <p>Estado: ${product.Existencia}</p>
+    <p>Cantidad: ${product.Cantidad} disponible(s)</p>
 `
     productDetailsContainer.innerHTML=html;
 }
+
+
 
 
 
