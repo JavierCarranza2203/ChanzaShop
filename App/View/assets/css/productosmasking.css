@@ -39,7 +39,6 @@ body {
 .products-container__row-item{
     height: 100%;
     box-shadow: 0 0 4px 2px #bebebe;
-    background-color: aqua;
     display: grid;
     transition: filter 0.3s ease;
 }
@@ -56,7 +55,6 @@ body {
 
 
 .products-container__row-item:hover{
-    transform: scale(1.05); /* Aumentar tamaño del producto */
-    box-shadow: 0 0 8px 4px #bebebe; /* Aumentar el tamaño de la sombra */
-    cursor: pointer; /* Cambiar el cursor al hacer hover */
+    box-shadow: 0 0 8px 4px #919191; /* Aumentar el tamaño de la sombra */
+
 }

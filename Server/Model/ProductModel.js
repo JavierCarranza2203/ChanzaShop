@@ -16,7 +16,7 @@ export class Product {
         this.price = data["Precio"];
         this.category = data["Categoria"];
         this.inStock = data["enStock"];
-        this.quantity =data["Cantidad"];
+        this.quantity = data["Cantidad"];
         this.img = data["nombreImg"];
     }
 

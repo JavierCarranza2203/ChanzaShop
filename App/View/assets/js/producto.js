@@ -28,11 +28,13 @@ function mostrarDetallesDetallesDelProducto(product){
     const html= `
     <h1>${product.Nombre}</h1>
     <img src="img/${product.Imagen}.png" alt="${product.Nombre}">
-    <p>${product.Descripcion}</p>
-    <p>Precio: $${product.PrecioUnitario}</p>
-    <p>Categoría: ${product.Categoria}</p>
-    <p>Estado: ${product.Existencia}</p>
-    <p>Cantidad: ${product.Cantidad} disponible(s)</p>
+    <div>
+        <p>${product.Descripcion}</p>
+        <p>Precio: $${product.PrecioUnitario}</p>
+        <p>Categoría: ${product.Categoria}</p>
+        <p>Estado: ${product.Existencia}</p>
+        <p>Cantidad: ${product.Cantidad} disponible(s)</p>
+    </div>
 `
     productDetailsContainer.innerHTML=html;
 }
