@@ -25,14 +25,15 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewProduct` (IN `name` VARCHAR(80), IN `description` VARCHAR(255), IN `price` DOUBLE, IN `category` VARCHAR(30))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewProduct` (IN `name` VARCHAR(80), IN `description` VARCHAR(255), IN `price` DOUBLE, IN `category` VARCHAR(30))   
+BEGIN
     DECLARE _intIdCategoria INT;
     SET @_intIdCategoria = NULL;
     
     SELECT idCategoria INTO @_intIdCategoria FROM categoria WHERE Nombre = category;
     
     IF @_intIdCategoria IS NOT NULL THEN
-        INSERT INTO producto (Nombre, Descripcion, Precio, IdCategoria, enStock) VALUES (name, description, price, 0, @_intIdCategoria);
+        INSERT INTO producto (Nombre, Descripcion, Precio, IdCategoria, enStock) VALUES (name, description, price, @_intIdCategoria, 1);
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se encontró la categoría especificada.';
     END IF;
