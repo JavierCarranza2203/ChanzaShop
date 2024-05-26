@@ -41,6 +41,30 @@
             return $User;
         }
 
+        public function AddProductToBuy($product) {
+            $carrito = [];
+
+            if (!isset($_SESSION[md5('User')])) { 
+                throw new Exception("No se ha iniciado sesión");
+            }
+            else {
+                $carrito = unserialize($_SESSION[md5('ShoppingCart')]);
+            }
+
+            array_push($carrito, $product);
+            $_SESSION[md5('ShoppingCart')] = serialize($carrito);
+
+            return "El producto se ha agregado al carrito de compras";
+        }
+
+        public function DeleteProductToBuy($product) {
+            
+        }
+
+        public function BuyShoppingCart() {
+            
+        }
+
         private static function UserToJson(string $name, string $role, bool $isLogged) {
             return [
                 'Nombre' => $name,

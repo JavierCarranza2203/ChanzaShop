@@ -23,8 +23,8 @@ function mostrarDetallesDelProducto(product) {
         <img src="img/${product.Imagen}.png" alt="${product.Nombre}">
     </div>
     <div class="details">
-        <h1>${product.Nombre}</h1>
-        <p class="price">$${product.PrecioUnitario}</p>
+        <h1 id="lblNombreProducto">${product.Nombre}</h1>
+        <p class="price" id="lblPrecioUnitario">$${product.PrecioUnitario}</p>
         <p>${product.Descripcion}</p>
         <p>Categoría: ${product.Categoria}</p>
         <p>Estado: ${product.Existencia}</p>
@@ -40,13 +40,16 @@ function mostrarDetallesDelProducto(product) {
             <p>Pago en efectivo</p>
         </div>
     </div>
-    <button class="add-to-cart">Añadir al carrito</button>
+    <button class="add-to-cart" id="btnAgregarAlCarrito">Añadir al carrito</button>
 </div>
     </div>
     `;
     productDetailsContainer.innerHTML = html;
-}
 
+    document.getElementById("btnAgregarAlCarrito").addEventListener('click', ()=>{
+        alert(product.Nombre)
+    });
+}
 
 
 btnMiPerfil.addEventListener('click', async () => {

@@ -11,27 +11,8 @@ body {
     min-height: 100vh;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #ffffff;
-}
-
-.header a img {
-    height: 60px;
-}
-
-.header__icons-container a {
-    color: rgb(0, 0, 0);
-    font-size: 1.5em;
-    margin-left: 20px;
-}
-
 .carousel {
     flex: 1;
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,8 +24,7 @@ body {
     width: 100%;
     max-width: 100%;
     background-color: white;
-    padding: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
 }
 
 .details-container {
@@ -63,13 +43,13 @@ body {
     height: auto;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    cursor: zoom-in;
 }
 
 .details {
     flex: 1; /* Ocupa todo el espacio disponible */
     max-width: 50%; /* Ajusta el ancho máximo */
-    padding-left: 20px; /* Añade espacio a la izquierda para separar los detalles del producto */
+    padding: 20px;
+    line-height: 1.1;
 }
 
 .details h1 {

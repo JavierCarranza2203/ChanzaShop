@@ -26,13 +26,12 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
 btnMiPerfil.addEventListener('click', async () => {
     const data = await ObtenerUsuarioLoggeado();
-    console.log(data)
 
     if(!data) {
         window.location.href = 'http://localhost/ChanzaShop/App/View/login.html';
     }
     else {
-        console.log(data)
+        console.log(data.Nombre)
         // const mainDiv = document.createElement('div');
 
         // const boldText = document.createElement('b');
