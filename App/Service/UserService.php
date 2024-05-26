@@ -84,7 +84,11 @@ if (isset($_POST['action'])) {
         // Devuelve una respuesta JSON exitosa
         http_response_code(200);
         echo json_encode("Se ha cerrado la sesión");
-    } else {
+    } 
+    else if($action === 'shop') {
+        
+    }
+    else {
         // Devuelve un error si la acción no es reconocida
         http_response_code(403);
         echo json_encode("No se reconoce la operación");

@@ -83,4 +83,10 @@ export class Customer {
             });
         });
     }
+
+    buyOrder(order) {
+        return Promise((resolve, reject) => {
+            
+        });
+    }
 }
