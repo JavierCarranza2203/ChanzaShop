@@ -1,4 +1,4 @@
-import { ObtenerProducto, ObtenerUsuarioLoggeado } from "./functions/peticiones.js";
+import { AgregarProductoAlCarrito, ObtenerProducto, ObtenerUsuarioLoggeado } from "./functions/peticiones.js";
 
 const btnMiPerfil = document.getElementById('btnMiPerfil');
 
@@ -46,8 +46,19 @@ function mostrarDetallesDelProducto(product) {
     `;
     productDetailsContainer.innerHTML = html;
 
-    document.getElementById("btnAgregarAlCarrito").addEventListener('click', ()=>{
-        alert(product.Nombre)
+    document.getElementById("btnAgregarAlCarrito").addEventListener('click', async ()=>{
+        let producto = {
+            'Numero': product.Numero,
+            'Nombre': product.Nombre,
+            'PrecioUnitario': product.PrecioUnitario,
+            'Cantidad': 1,
+            'Imagen': product.Imagen
+        }
+
+        let response = await AgregarProductoAlCarrito(JSON.parse(JSON.stringify(producto)));
+
+
+        alert(response);
     });
 }
 

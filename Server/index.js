@@ -156,7 +156,6 @@ server.get("/getBestProductsByCategory", (req, res) => {
         if(SecurityService.IsValidString(category)) {
             connection.query(query, [category], (err, result) => {
                 if(!result[0][0]) {
-                    console.log(result);
                     res.status(404).json({ error: 'La categoría no existe o no hay productos disponibles' });
                     return; 
                 }

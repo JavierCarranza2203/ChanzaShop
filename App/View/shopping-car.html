@@ -23,14 +23,14 @@
                 <b>Subtotal:</b><b id="lblSubTotal">$0.00</b>
             </div>
             <div class="order-info-container">
-                <b>Precio de entrega:</b><b id="lblPrecioEntrega">$0.00</b>
+                <b>Precio de entrega:</b><b id="lblPrecioEntrega">$100.00</b>
             </div>
             <div class="order-info-container">
                 <b>Total:</b><b id="lblTotal">$0.00</b>
             </div>
             <div class="order-button-container">
-                <button class="order-button-container__button">Cancelar compra</button>
-                <button class="order-button-container__button">Realizar compra</button>
+                <button class="order-button-container__button" id="btnCancelarCompra">Cancelar compra</button>
+                <button class="order-button-container__button" id="btnRealizarCompra">Realizar compra</button>
             </div>
         </section>
         <div class="anuncio">
@@ -39,37 +39,8 @@
             Por el momento no contamos con pago con tarjeta. Por lo tanto todos los pagos deberan ser en efectivo.
         </div>
         <div class="order-container" id="pnlOrderContainer">
-            <div class="product-container">
-                <img>
-                <h3 id="NombreProducto">NombreProducto</h3>
-                <div class="product-container__attribute-container">
-                    <div class="product-container__attribute">Cantidad: <i class="fa-solid fa-circle-minus"></i> <b id="contador">0</b> <i class="fa-solid fa-circle-plus"></i></div>
-                    <div class="product-container__attribute">Precio: <b id="lblPrecio">$0.00</b></div>
-                </div>
-
-                <button class="product-container__button" id="btnNombreProducto"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
-            </div>
-            <div class="product-container">
-                <img>
-                <h3 id="NombreProducto">NombreProducto</h3>
-                <div class="product-container__attribute-container">
-                    <div class="product-container__attribute">Cantidad: <i class="fa-solid fa-circle-minus"></i> <b id="contador">0</b> <i class="fa-solid fa-circle-plus"></i></div>
-                    <div class="product-container__attribute">Precio: <b id="lblPrecio">$0.00</b></div>
-                </div>
-
-                <button class="product-container__button" id="btnNombreProducto"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
-            </div>
-            <div class="product-container">
-                <img>
-                <h3 id="NombreProducto">NombreProducto</h3>
-                <div class="product-container__attribute-container">
-                    <div class="product-container__attribute">Cantidad: <i class="fa-solid fa-circle-minus"></i> <b id="contador">0</b> <i class="fa-solid fa-circle-plus"></i></div>
-                    <div class="product-container__attribute">Precio: <b id="lblPrecio">$0.00</b></div>
-                </div>
-
-                <button class="product-container__button" id="btnNombreProducto"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
-            </div>
         </div>
     </div>
+<script src="./assets/js/carrito.js" type="module"></script>
 <body>
 </html>

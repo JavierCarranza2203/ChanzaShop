@@ -1,14 +1,25 @@
 <?php
     class User 
     {
+        public $userName;
+        public $estaLoggeado;
+        public $tipoUsuario;
+        public Array $carrito;
+
+        public function __construct($userName, $estaLoggeado, $tipoUsuario, $carrito) {
+            $this->userName = $userName;
+            $this->estaLoggeado = $estaLoggeado;
+            $this->tipoUsuario = $tipoUsuario;
+            $this->carrito = $carrito;
+        }
+
         public static function Login(string $userName, string $password) {
             // $User = self::UserToJson("Desconocido", "Desconocido", false);
-            $User = self::UserToJson("Administrator", "admin", true);
 
             if($userName === "Chanza Admin") {
                 if($password === "chanzaAdmin_2024*")
                 {
-                    $User = self::UserToJson("Administrador", "admin", true);
+                    $User = self::UserToJson("Administrador", "admin", true, []);
                 }
             }
             else {
@@ -28,7 +39,7 @@
                 curl_close($curl);
 
                 if($httpCode >= 200 && $httpCode < 300) {
-                    $User = self::UserToJson($decodedResponse['Nombre'], $decodedResponse['Rol'], true);
+                    $User = self::UserToJson($decodedResponse['Nombre'], $decodedResponse['Rol'], true, []);
                 }
                 else if($httpCode == 401){
                     throw new UnexpectedValueException($decodedResponse['error'], $httpCode);
@@ -41,35 +52,94 @@
             return $User;
         }
 
-        public function AddProductToBuy($product) {
-            $carrito = [];
+        public function HandleShopAction($action, $product) {
+            try {
+                $message = '';
 
-            if (!isset($_SESSION[md5('User')])) { 
-                throw new Exception("No se ha iniciado sesión");
-            }
-            else {
-                $carrito = unserialize($_SESSION[md5('ShoppingCart')]);
-            }
+                switch($action) {
+                    case "add":
+                            $message =  $this->AddProductToBuy($product);
+                        break;
+                    case "delete":
+                            $message = $this->DeleteProductToBuy($product);
+                        break;
+                    case "buy":
+                            $message = $this->BuyShoppingCart();
+                        break;
+                    case "cancel":
+                            $message = $this->CancelShoppingCart();
+                        break;
+                    case "get":
+                            $message = $this->GetShoppingCart();
+                        break;
+                    case "update":
+                            $message = $this->UpdateShoppingCart($product);
+                        break;
+                    default:
+                        throw new Exception("Acción no válida");
+                }
 
-            array_push($carrito, $product);
-            $_SESSION[md5('ShoppingCart')] = serialize($carrito);
+                return $message;
+            }
+            catch(Exception $e) {
+                return "Hubo un error: " . $e->getMessage();
+            }
+        }
+
+        private function AddProductToBuy($product) {
+            $product = json_decode($product, true);
+
+            if(count($this->carrito) <= 0) { $this->carrito[$product['Numero']] = $product; }
+            else if(isset($this->carrito[$product['Numero']])) { throw new Exception('El producto ya está en el carrito'); }
+            else { $this->carrito[$product['Numero']] = $product; }
 
             return "El producto se ha agregado al carrito de compras";
         }
 
-        public function DeleteProductToBuy($product) {
-            
+        private function DeleteProductToBuy($product) {
+            $product = json_decode($product, true);
+
+            if(isset($this->carrito[$product['Numero']])) {
+                unset($this->carrito[$product['Numero']]);
+
+                return "El producto se ha eliminado";
+            }
+            else {
+                throw new Exception('El producto no está en el carrito');
+            }
         }
 
         public function BuyShoppingCart() {
             
         }
 
-        private static function UserToJson(string $name, string $role, bool $isLogged) {
+        private function CancelShoppingCart() {
+            $this->carrito = [];
+
+            return "El carrito se ha borrado";
+        }
+
+        private function GetShoppingCart() {
+            return $this->carrito;
+        }
+
+        private function UpdateShoppingCart($product) {
+            $product = json_decode($product, true);
+
+            if(isset($this->carrito[$product['Numero']])) {
+                $this->carrito[$product['Numero']] = $product;
+            }
+            else {
+                throw new Exception('El producto no está en el carrito');
+            }
+        }
+
+        public static function UserToJson(string $name, string $role, bool $isLogged, $carrito) {
             return [
                 'Nombre' => $name,
                 'estaLoggeado' => $isLogged,
-                'TipoUsuario' => $role
+                'TipoUsuario' => $role,
+                'Carrito' => $carrito
             ];
         } 
     }

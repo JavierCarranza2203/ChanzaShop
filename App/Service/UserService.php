@@ -86,7 +86,17 @@ if (isset($_POST['action'])) {
         echo json_encode("Se ha cerrado la sesión");
     } 
     else if($action === 'shop') {
+        $producto = $_POST['producto'] ?? null;
+        $shopAction = $_POST['shopAction'];
+
+        $loggedUser = unserialize($_SESSION[md5('User')]);
+        $user = new User($loggedUser['Nombre'], $loggedUser['estaLoggeado'], $loggedUser['TipoUsuario'], $loggedUser['Carrito']);
         
+        $message = $user->HandleShopAction($shopAction, $producto);
+
+        $_SESSION[md5('User')] = serialize(User::UserToJson($user->userName, $user->tipoUsuario, $user->estaLoggeado, $user->carrito));
+
+        echo json_encode($message);
     }
     else {
         // Devuelve un error si la acción no es reconocida
