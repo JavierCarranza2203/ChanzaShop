@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="assets/css/login.css">
+    <title>Crear Cuenta</title>
+    <link rel="stylesheet" href="assets/css/crearcuenta.css">
     <script src="https://kit.fontawesome.com/f8571caff0.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -16,23 +16,24 @@
             <a href="login.html"><i class="fa-solid fa-circle-user"></i></a>
         </div>
     </header>
-    <form id="loginForm" class="form" action="UserService.php" method="post">
+    <form id="registerForm" class="form" action="/ChanzaShop/App/Service/registrar_usuario.php" method="post">
         <img src="./assets/icons/background-login.png">
 
         <div class="form__inputs">
             <h1 class="form__h1">CREAR CUENTA</h1>
 
-            <input type="text" name="" id="" placeholder="Nombre Completo">
-            <input type="text" name="" id="" placeholder="Correo Electrónico">
-            <input type="password" name="" id="" placeholder="Contraseña">
-            <input type="password" name="" id="" placeholder="Confirmar Contraseña">
-            <input type="text" name="" id="" placeholder="Calle">
-            <button type="submit">¡Ingresar ahora!</button>
-
-            <a href="login.html" class="last-link">Iniciar Sesion</a>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" required>
+            <input type="text" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido Paterno" required>
+            <input type="text" id="apellido_materno" name="apellido_materno" placeholder="Apellido Materno" required>
+            <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+            <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required>
+            <input type="text" id="usuario" name="usuario" placeholder="Nombre de Usuario" required>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+            <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" placeholder="Confirmar Contraseña" required>
+            <button type="submit" value="¡Crear Cuenta!">¡Crear Cuenta!</button>
+            <a href="login.html" class="last-link">¿Ya tienes una cuenta? Inicia Sesión</a>
         </div>
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="action" value="register">
     </form>
-
-    <script src="login.js"></script>
+</body>
 </html>
