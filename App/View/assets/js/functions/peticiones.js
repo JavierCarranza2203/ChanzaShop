@@ -148,3 +148,21 @@ export async function RealizarCompra() {
         return data['error'];
     }
 }
+
+export async function CerrarSesion() {
+    const data = new FormData();
+    data.append('action', 'logout');
+
+    const response = await fetch(server + '/ChanzaShop/App/Service/UserService.php', {
+        method: 'POST',
+        body: data
+    });
+
+    if (response.ok) {
+        // Si la respuesta es exitosa, recarga la página
+        window.location.reload();
+    } else {
+        // Manejar el caso en que ocurra un error al cerrar la sesión
+        console.error('Error al cerrar sesión:', response.statusText);
+    }
+}

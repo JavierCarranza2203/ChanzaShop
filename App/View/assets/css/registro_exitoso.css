@@ -1,6 +1,6 @@
 @import url('./base/reset-syle.css');
 
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     padding: 8px;
@@ -16,28 +16,28 @@
 .header > img {
     width: 9.5%;
 }
-.header1 {
-    width: 9.5%;
-}
 
-.header__icons-container{
+.header__icons-container {
     padding: 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     font-size: 1.5vw;
     gap: 20px;
+    background-color: #fff;
 }
 
 body {
     width: 100vw;
-    height: 110vh;
+    height: 100vh;
     display: grid;
     grid-template-rows: 12.2% 87.8%;
     align-items: center;
+    
 }
 
-.form{
+.form {
+    
     height: 85%;
     width: 60%;
     display: flex;
@@ -51,33 +51,37 @@ body {
 }
 
 .form__inputs {
+    margin-top: 140px;
     display: grid;
-    grid-template-rows: 7% 7% 7% 7% 7% 7% 7% 7% 7% 12% 1%;
+    grid-template-rows: 25% 7% 7% 7% 7% 7% 7% 7% 7% 12% 1%;
     gap: 2%;
     font-size: 18px;
     place-items: center;
     width: 60%;
 }
 
-.form__inputs > input{
+.form__inputs > input {
     border: 1px solid #949494;
     height: 18px;
     padding: 24px 12px;
     width: 80%;
 }
 
-.form__inputs > button {
+.form__inputs > button,
+.form__inputs > a {
     background-color: #343D61;
     color: #fff;
     padding: 18px;
-    width: 80%;
-}
-
-.form__inputs > a {
+    width: 60%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    margin-top: 50px;
     font-size: 16px;
 }
 
-.first-link{
+.first-link {
     position: relative;
     top: -15px;
     right: 20%;

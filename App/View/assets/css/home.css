@@ -59,3 +59,13 @@ body {
     box-shadow: 0 0 8px 4px #bebebe; /* Aumentar el tamaño de la sombra */
     cursor: pointer; /* Cambiar el cursor al hacer hover */
 }
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    width: calc(50% - 5px);
+}
