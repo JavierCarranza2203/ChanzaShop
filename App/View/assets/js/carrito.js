@@ -1,4 +1,4 @@
-import { CancelarCompra, ObtenerCarrito } from "./functions/peticiones.js";
+import { CancelarCompra, ObtenerCarrito, RealizarCompra } from "./functions/peticiones.js";
 
 window.addEventListener('DOMContentLoaded', async () => {
     let contenedorProductos = document.getElementById('pnlOrderContainer');
@@ -16,6 +16,10 @@ document.getElementById('btnCancelarCompra').addEventListener('click', async () 
     location.reload();
 });
 
-document.getElementById('btnRealizarCompra').addEventListener('click', () => {
+document.getElementById('btnRealizarCompra').addEventListener('click', async () => {
+    const response = await RealizarCompra();
 
+    alert(response);
+
+    location.reload();
 });

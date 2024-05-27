@@ -36,22 +36,6 @@ export class Customer {
         });
     }
 
-    buyOrder(order) {
-        return new Promise((resolve, reject) => {
-            if(!SecurityService.IsValidNumber(idOrder)) { reject("¡El ID no es correcto!"); }
-
-            const query = "CALL buyOrder(?)";
-
-            connection.query(query, [idOrder], (error, results) => {
-                if(error) { 
-                    reject(error); 
-                } else{
-                    resolve({ mensaje: "¡La cuenta se ha creado!" });
-                }
-            });
-        });
-    }
-
     getOrderById(idOrder, connection) {
         return new Promise((resolve, reject) => {
             if(!SecurityService.IsValidNumber(idOrder)) { reject("¡El ID no es correcto!"); }
@@ -83,10 +67,35 @@ export class Customer {
             });
         });
     }
+}
 
-    buyOrder(order) {
-        return Promise((resolve, reject) => {
-            
+export async function buyOrder(order, userName, connection) {
+    return new Promise((resolve, reject) => {
+        if(!SecurityService.IsValidString(userName)) { reject("¡El nombre de usuario no es correcto!"); }
+
+        const query = "CALL InsertarVenta(?)";
+
+        connection.query(query, [userName], (error, results) => {
+            if(error) { 
+                reject(error); 
+            } else {
+                const idVenta = results[0][0].IdVenta;
+
+                const query2 = "CALL InsertarDetalleVenta(?, ?, ?)";
+
+                for(let key in order){
+                    let producto = order[key];
+
+                    connection.query(query2, [producto.Numero, idVenta, producto.Cantidad], (error, results) => {
+                        if(error) {
+                            reject(error);
+                        }
+                        else {
+                            resolve('Compra realizada correctamente');
+                        }
+                    });
+                }
+            }
         });
-    }
+    });
 }

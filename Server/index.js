@@ -1,5 +1,5 @@
 // Server principal para recibir las peticiones y "redirigir" a los microservicios
-import express from 'express';
+import express, { response } from 'express';
 import mysql2 from 'mysql2';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -7,6 +7,7 @@ import { User } from './Model/UserModel.js';
 import { Product } from './Model/ProductModel.js';
 import { SecurityService } from './microservices/SecurityService.js';
 import { AdminService } from './microservices/AdminService.js';
+import { buyOrder } from './microservices/CustomerService.js'
 
 const server = express();
 const port = 3000;
@@ -219,6 +220,26 @@ server.post("/adminService/:action", async (req, res) => {
         }
 
         res.json(message);
+    }
+    catch(e) {
+        console.error('Error en la aplicación:', e.message);
+        res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+    }
+});
+
+server.post('/buyOrder', async (req, res) => {
+    try {
+        const { order, userName } = req.body;
+
+        console.log(order)
+
+        if (!order || !userName) {
+            return res.status(400).json({ error: 'Se requieren los campos "order" y "userName".' });
+        }
+
+        const reponse = await buyOrder(order, userName, connection);
+
+        res.status(200).json({ message: "Compra realizada correctamente" });
     }
     catch(e) {
         console.error('Error en la aplicación:', e.message);

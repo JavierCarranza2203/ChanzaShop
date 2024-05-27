@@ -126,3 +126,25 @@ export async function CancelarCompra() {
         return data;
     }
 }
+
+export async function RealizarCompra() {
+    const data = new FormData();
+
+    data.append('action', 'shop');
+    data.append('shopAction', 'buy');
+
+    const response = await fetch(server + '/ChanzaShop/App/Service/UserService.php', {
+        method: 'POST',
+        body: data
+    });
+
+    if(response.ok) {
+        const data = await response.json();
+        console.log(data);
+        return data['message'];
+    }
+    else {
+        const data = await response.json();
+        return data['error'];
+    }
+}

@@ -110,7 +110,49 @@
         }
 
         public function BuyShoppingCart() {
+            $url = 'http://localhost:3000/buyOrder';
+
+            // Datos a enviar en el cuerpo de la solicitud
+            $data = [
+                'order' => $this->carrito,
+                'userName' => $this->userName
+            ];
+        
+            // Inicializar cURL
+            $ch = curl_init($url);
+        
+            // Configurar opciones de cURL
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json'
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        
+            // Ejecutar la solicitud
+            $response = curl_exec($ch);
+        
+            // Verificar si hubo errores
+            if ($response === false) {
+                $error = curl_error($ch);
+                curl_close($ch);
+                throw new Exception('Error en la solicitud cURL: ' . $error);
+            }
+        
+            // Cerrar cURL
+            curl_close($ch);
+        
+            // Decodificar la respuesta JSON
+            $responseData = json_decode($response, true);
+        
+            // Verificar si la respuesta contiene un error
+            if (isset($responseData['error'])) {
+                throw new Exception('Error en la respuesta del servidor: ' . $responseData['error']);
+            }
             
+            $this->CancelShoppingCart();
+
+            return $responseData;
         }
 
         private function CancelShoppingCart() {
