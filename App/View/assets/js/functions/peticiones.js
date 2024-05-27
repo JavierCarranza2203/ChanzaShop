@@ -3,7 +3,6 @@ import { AgregarProductoEnCarrito } from "./componentes.js";
 const server = 'http://localhost'
 
 export async function ObtenerUsuarioLoggeado() {
-
     const data = new FormData();
     data.append('action', 'getUser');
 
@@ -12,12 +11,10 @@ export async function ObtenerUsuarioLoggeado() {
         body: data
     });
 
-    if(response.ok) {
+    if (response.ok) {
         const json = await response.json();
-
         return json;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -25,12 +22,10 @@ export async function ObtenerUsuarioLoggeado() {
 export async function ObtenerMejoresProductos(category) {
     const response = await fetch(server + ':3000/getBestProductsByCategory?category=' + category);
 
-    if(response.ok) {
+    if (response.ok) {
         const productos = await response.json();
-
         return productos;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -38,12 +33,10 @@ export async function ObtenerMejoresProductos(category) {
 export async function ObtenerProductos(category) {
     const response = await fetch(server + ':3000/getProductsByCategory?category=' + category);
 
-    if(response.ok) {
+    if (response.ok) {
         const productos = await response.json();
-
         return productos;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -51,12 +44,10 @@ export async function ObtenerProductos(category) {
 export async function ObtenerProducto(id) {
     const response = await fetch(server + ':3000/getProductById?id=' + id);
 
-    if(response.ok) {
+    if (response.ok) {
         const producto = await response.json();
-
         return producto;
-    }
-    else {
+    } else {
         return false;
     }
 }
