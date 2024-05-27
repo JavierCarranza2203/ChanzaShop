@@ -52,6 +52,17 @@ export async function ObtenerProducto(id) {
     }
 }
 
+export async function ObtenerTodosProducto(id) {
+    const response = await fetch(server + ':3000/:3000/adminService/getAllproducts' + id);
+
+    if (response.ok) {
+        const producto = await response.json();
+        return producto;
+    } else {
+        return false;
+    }
+}
+
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
     data.append('action', 'shop');
