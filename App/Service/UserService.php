@@ -80,11 +80,13 @@ if (isset($_POST['action'])) {
         // Maneja la acción 'logout'
         // Destruye la sesión
         session_destroy();
-
+    
         // Devuelve una respuesta JSON exitosa
         http_response_code(200);
         echo json_encode("Se ha cerrado la sesión");
-    } 
+    }
+    
+    
     else if($action === 'shop') {
         $producto = $_POST['producto'] ?? null;
         $shopAction = $_POST['shopAction'];
