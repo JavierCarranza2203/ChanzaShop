@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        
         body {
             display: contents;
         }
@@ -23,28 +24,12 @@
             font-size: 36px;
             font-weight: bold;
         }
-
-        /* .filter-container{
-            display:flex;
-            font-weight: bold;
-        }
-        #fechaInicio{
-            margin-left: 30px;
-        }
-        #fechaFinal{
-            margin-left: 30px;
-        }
-        button{
-            margin-left: 30px;
-            font-weight: bold;
-            border-width: 2px;
-            border-color: black;
-            border-style: solid;
-            color: black;
-            border-radius: 5px;
-        } */
         canvas {
-            max-height: 70vh;
+            max-height: 60vh;
+        }
+        #button1{
+            background-color:aqua;
+
         }
     </style>
 </head>
@@ -65,6 +50,15 @@
     <div class="titulo">
         <h1><i class="fa-solid fa-chart-pie"></i>Productos mas vendidos</h1>
     </div>
+    <div class="inline-block">
+        <label for="category">Categoría:</label>
+    </div>
+    <div class="inline-block">
+        <select id="category" name="category">
+            <option value="Vapes">Vapes</option>
+            <option value="calzado">Calzado</option>
+        </select>
+    <button onclick="updateChart()" id="button1">Actualizar Gráfica</button>
     <div class="productos-mas-vendidos">
         <!-- <div class="filter-container">
             <label for="startDate" id="fechaInicio">Fecha de inicio:</label>
@@ -80,21 +74,19 @@
 
     <body>
 
-        <script>
-            // Datos iniciales
-            const labels = ["Tenis Air Force", "Masking Fresa", "Tenis Jordan 1", "Masking Blueberry"];
-            const data = [3, 15, 1, 22];
-
-            let miCanvas = document.getElementById("miGrafica").getContext("2d");
-
-            var chart = new Chart(miCanvas, {
-                type: "pie",
+        <script type="module">
+            import { ObtenerMejoresProductos } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
+    
+            // Inicializa la gráfica con datos vacíos
+            const ctx = document.getElementById('miGrafica').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'pie',
                 data: {
-                    labels: labels,
+                    labels: [],
                     datasets: [{
-                        label: "Productos mas vendidos",
+                        label: "Productos más vendidos",
                         backgroundColor: ["blue", "green", "yellow", "aqua"],
-                        data: data
+                        data: []
                     }]
                 },
                 options: {
@@ -105,31 +97,39 @@
                                 font: {
                                     size: 20
                                 }
-                            } // Posiciona la leyenda abajo
+                            }
                         }
                     }
                 }
             });
-
-            function updateChart() {
-                const startDate = document.getElementById('startDate').value;
-                const endDate = document.getElementById('endDate').value;
-
-                if (startDate && endDate) {
-                    // Filtrar los datos basados en las fechas seleccionadas
-                    const filteredData = labels.map((label, index) => {
-                        if (label >= startDate && label <= endDate) {
-                            return { date: label, value: data[index] };
+    
+            // Función para actualizar la gráfica con datos del servidor
+            async function updateChart() {
+                const category = document.getElementById('category').value.trim(); // Eliminar espacios en blanco
+    
+                if (category) {
+                    try {
+                        const productos = await ObtenerMejoresProductos(category);
+    
+                        if (productos) {
+                            const labels = productos.map(product => product.Nombre);
+                            const values = productos.map(product => product.Cantidad);
+    
+                            chart.data.labels = labels;
+                            chart.data.datasets[0].data = values;
+                            chart.update();
+                        } else {
+                            console.error('Error en la respuesta del servidor.');
                         }
-                        return null;
-                    }).filter(item => item !== null);
-
-                    // Actualizar los datos del gráfico
-                    chart.data.labels = filteredData.map(item => item.date);
-                    chart.data.datasets[0].data = filteredData.map(item => item.value);
-                    chart.update();
+                    } catch (error) {
+                        console.error('Error al obtener los datos:', error);
+                    }
+                } else {
+                    console.error('Categoría no válida');
                 }
             }
+            window.updateChart = updateChart;
+
         </script>
 
 </html>
