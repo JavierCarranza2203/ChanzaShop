@@ -53,7 +53,9 @@ export async function ObtenerProducto(id) {
 }
 
 export async function ObtenerTodosProducto(id) {
-    const response = await fetch(server + ':3000/:3000/adminService/getAllproducts' + id);
+    const response = await fetch(server + ':3000/adminService/getAllProducts', {
+        method:"POST"
+    });
 
     if (response.ok) {
         const producto = await response.json();
