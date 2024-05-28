@@ -4,132 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos mas vendidos</title>
+    <title>Productos más vendidos</title>
     <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="assets/css/masvendidos.css">
     <script src="https://kit.fontawesome.com/f8571caff0.js" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        
-        body {
-            display: contents;
-        }
-
-        .titulo {
-            margin: 20px;
-        }
-
-        h1 {
-            font-size: 36px;
-            font-weight: bold;
-        }
-        canvas {
-            max-height: 60vh;
-        }
-        #button1{
-            background-color:aqua;
-
-        }
-    </style>
 </head>
 
 <body>
     <header class="header">
-        <a href="/ChanzaShop/App/"><img src="assets/icons/chanza_logo.png" alt="Logo"
-                style="width: 100px; height: 60px;"></a>
-
+        <a href="/ChanzaShop/App/"><img src="assets/icons/chanza_logo.png" alt="Logo"></a>
         <div class="header__icons-container">
-            <a href="usuarios-registrados.html"> <i class="fa-solid fa-chart-simple"></i></a>
-            <a href="productos-mas-vendidos.html"> <i class="fa-solid fa-chart-pie"></i></a>
-            <a href="inventory.html"> <i class="fa-solid fa-table-list"></i></a>
-            <a href="shopping-car.html"> <i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="usuarios-registrados.html"><i class="fa-solid fa-chart-simple"></i></a>
+            <a href="productos-mas-vendidos.html"><i class="fa-solid fa-chart-pie"></i></a>
+            <a href="inventory.html"><i class="fa-solid fa-table-list"></i></a>
+            <a href="shopping-car.html"><i class="fa-solid fa-cart-shopping"></i></a>
             <a href="login.html"><i class="fa-solid fa-circle-user"></i></a>
         </div>
     </header>
+
     <div class="titulo">
-        <h1><i class="fa-solid fa-chart-pie"></i>Productos mas vendidos</h1>
+        <h1><i class="fa-solid fa-chart-pie"></i>Productos más vendidos</h1>
     </div>
-    <div class="inline-block">
+
+    <div class="form-group">
         <label for="category">Categoría:</label>
-    </div>
-    <div class="inline-block">
         <select id="category" name="category">
+            <option value="" disabled selected hidden>Seleccionar</option>
             <option value="Vapes">Vapes</option>
             <option value="calzado">Calzado</option>
         </select>
-    <button onclick="updateChart()" id="button1">Actualizar Gráfica</button>
+        <button onclick="updateChart()" id="button1">Actualizar Gráfica</button>
+    </div>
+
     <div class="productos-mas-vendidos">
-        <!-- <div class="filter-container">
-            <label for="startDate" id="fechaInicio">Fecha de inicio:</label>
-            <input type="date" id="startDate">
-            <label for="endDate" id="fechaFinal">Fecha de fin:</label>
-            <input type="date" id="endDate"s>
-            <button onclick="updateChart()">Aplicar</button>
-        </div> -->
         <canvas id="miGrafica"></canvas>
     </div>
 
-    </div>
+    <script type="module">
+        import { ObtenerMejoresProductos } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
 
-    <body>
-
-        <script type="module">
-            import { ObtenerMejoresProductos } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
-    
-            // Inicializa la gráfica con datos vacíos
-            const ctx = document.getElementById('miGrafica').getContext('2d');
-            let chart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: "Productos más vendidos",
-                        backgroundColor: ["blue", "green", "yellow", "aqua"],
-                        data: []
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    size: 20
-                                }
+        // Inicializa la gráfica con datos vacíos
+        const ctx = document.getElementById('miGrafica').getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: "Productos más vendidos",
+                    backgroundColor: ["blue", "green", "yellow", "aqua"],
+                    data: []
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 20
                             }
                         }
                     }
                 }
-            });
-    
-            // Función para actualizar la gráfica con datos del servidor
-            async function updateChart() {
-                const category = document.getElementById('category').value.trim(); // Eliminar espacios en blanco
-    
-                if (category) {
-                    try {
-                        const productos = await ObtenerMejoresProductos(category);
-    
-                        if (productos) {
-                            const labels = productos.map(product => product.Nombre);
-                            const values = productos.map(product => product.Cantidad);
-    
-                            chart.data.labels = labels;
-                            chart.data.datasets[0].data = values;
-                            chart.update();
-                        } else {
-                            console.error('Error en la respuesta del servidor.');
-                        }
-                    } catch (error) {
-                        console.error('Error al obtener los datos:', error);
-                    }
-                } else {
-                    console.error('Categoría no válida');
-                }
             }
-            window.updateChart = updateChart;
+        });
 
-        </script>
+        // Función para actualizar la gráfica con datos del servidor
+        async function updateChart() {
+            const category = document.getElementById('category').value.trim(); // Eliminar espacios en blanco
+
+            if (category) {
+                try {
+                    const productos = await ObtenerMejoresProductos(category);
+
+                    if (productos) {
+                        const labels = productos.map(product => product.Nombre);
+                        const values = productos.map(product => product.Cantidad);
+
+                        chart.data.labels = labels;
+                        chart.data.datasets[0].data = values;
+                        chart.update();
+                    } else {
+                        console.error('Error en la respuesta del servidor.');
+                    }
+                } catch (error) {
+                    console.error('Error al obtener los datos:', error);
+                }
+            } else {
+                console.error('Por favor seleccione una categoría');
+            }
+        }
+        window.updateChart = updateChart;
+    </script>
+</body>
 
 </html>
