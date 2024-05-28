@@ -66,7 +66,6 @@ export async function ObtenerTodosProducto() {
     }
 }
 
-
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
     data.append('action', 'shop');

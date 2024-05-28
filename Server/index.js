@@ -184,26 +184,32 @@ server.get("/getBestProductsByCategory", (req, res) => {
     }
 });
 
-server.post("getAllProducts", async (req, res) => {
-    const query = "SELECT * FROM allProducts";
-    connection.query(query, (err, result) => {
-        if(!result[0][0]){
-            res.status(404).json({ error: "La categoría no existe o no hay productos disponibles"})
-            return;
-        }
+server.post("/getAllProducts", async (req, res) => {
+    try {
+        const query = "SELECT * FROM allProducts";
 
-        const data = result[0];
+        connection.query(query, (err, result) => {
+            if(!result[0]){
+                res.status(404).json({ error: 'No hay productos disponibles' });
+                return;
+            }
 
-        const productList = [];
+            const data = result;
+            let productsList = [];
 
-        for(let i= 0; i < data.length ;i++){
-            let product = new Product(data[i]);
+            for (let i = 0; i < data.length; i++) {
+                let product = new Product(data[i]);
 
-            productList[i] = product.ToJSON();
-        }
+                productsList[i] = product.ToJSON();
+            }
 
-        res.json(productList);
-    });
+            res.json(productsList);
+        }); 
+    }
+    catch (e) {
+        console.error('Error en la aplicación:', e.message);
+        res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+    }
 });
 
 server.post('/buyOrder', async (req, res) => {
@@ -230,10 +236,6 @@ process.on('unhandledRejection', (error, promise) => {
     console.log('El error fué: ', error);
 });
 
-
-
-
-
 server.get("/getRegisteredUsersData",  (req, res) => {
     try {
         const query = 'CALL getRegisteredUsersData';
@@ -245,18 +247,8 @@ server.get("/getRegisteredUsersData",  (req, res) => {
 
             const data = result[0]; 
 
-            const productsList = [];
-
-            for (let i = 0; i < data.length; i++) {
-                let product = new Product(data[i]);
-
-                productsList[i] = product.ToJSON();
-            }
-
-            res.json(productsList);
+            res.json(data);
         });
-
-
     }
     catch (e) {
         console.error('Error en la aplicación:', e.message);
