@@ -9,7 +9,6 @@ export class Product {
     img;
 
     constructor(data) {
-        console.log(data)
         this.id = data["IdProducto"];
         this.name = data["Nombre"];
         this.description = data["Descripcion"];

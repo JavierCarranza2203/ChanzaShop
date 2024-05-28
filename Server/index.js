@@ -231,8 +231,6 @@ server.post('/buyOrder', async (req, res) => {
     try {
         const { order, userName } = req.body;
 
-        console.log(order)
-
         if (!order || !userName) {
             return res.status(400).json({ error: 'Se requieren los campos "order" y "userName".' });
         }
