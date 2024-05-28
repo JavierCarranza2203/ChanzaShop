@@ -13,7 +13,7 @@
 
     <style>
         body {
-            display:contents;
+            display: contents;
         }
 
         .titulo {
@@ -24,17 +24,21 @@
             font-size: 36px;
             font-weight: bold;
         }
-        .filter-container{
-            display:flex;
+
+        .filter-container {
+            display: flex;
             font-weight: bold;
         }
-        #fechaInicio{
+
+        #fechaInicio {
             margin-left: 30px;
         }
-        #fechaFinal{
+
+        #fechaFinal {
             margin-left: 30px;
         }
-        button{
+
+        button {
             margin-left: 30px;
             font-weight: bold;
             border-width: 2px;
@@ -43,7 +47,6 @@
             color: black;
             border-radius: 5px;
         }
-
     </style>
 </head>
 
@@ -74,68 +77,220 @@
     </div>
 </body>
 
-        <script>
-            // Datos iniciales
-            const labels = ["2024-05-01", "2024-05-08", "2024-05-15", "2024-05-22"];
-            const data = [10, 20, 5, 13];
+        <!-- <script type="module">
+            import { ObtenerUsuariosRegistrados } from '/Chanzashop/App/View/assets/js/functions/peticiones.js';
+            
+            async function fetchDataAndRenderChart() {
+                try {
+                    const data = await ObtenerUsuariosRegistrados();
     
-            let miCanvas = document.getElementById("miGrafica").getContext("2d");
+                    const fechas = data.map(item => item.FechaRegistro);
+                    const cantidades = data.map(item => item.CantidadUsuariosRegistrados);
     
-            var chart = new Chart(miCanvas, {
-    type: "bar",
-    data: {
-        labels: labels,
-        datasets: [{
-            label: "Usuarios registrados",
-            backgroundColor: "red",
-            data: data
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    color: 'black' // Color de las escalas en negro
-                }
-            },
-            x: {
-                ticks: {
-                    color: 'black' // Color de las escalas en negro
+                    const ctx = document.getElementById('miGrafica').getContext('2d');
+                    const chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: fechas,
+                            datasets: [{
+                                label: 'Usuarios Registrados por Fecha',
+                                data: cantidades,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error al obtener y renderizar los datos:', error);
                 }
             }
-        },
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    font: {
-                        size: 16,
+    
+            fetchDataAndRenderChart();
+        </script> -->
+
+
+
+
+
+
+
+
+
+        <!-- <script type="module">
+            import { ObtenerUsuariosRegistrados } from '/Chanzashop/App/View/assets/js/functions/peticiones.js';
+
+            let chart;
+
+            async function fetchDataAndRenderChart() {
+                try {
+                    const data = await ObtenerUsuariosRegistrados();
+                    if (!data) throw new Error('No se pudieron obtener los datos de usuarios registrados');
+                    const fechas = data.map(item => new Date(item.FechaRegistro).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    }));
+                    for (let i = 0; i < fechas.length; i++) {
+                        console.log(fechas[i]);
                     }
-                } // Posiciona la leyenda abajo
+                    const cantidades = data.map(item => item.CantidadUsuariosRegistrados);
+                    for (let i = 0; i < cantidades.length; i++) {
+                        console.log(cantidades[i]);
+                    }
+                    const ctx = document.getElementById('miGrafica').getContext('2d');
+                    if (chart) {
+                        chart.destroy();
+                    }
+                    chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: fechas,
+                            datasets: [{
+                                label: 'Usuarios Registrados por Fecha',
+                                data: cantidades,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error al obtener y renderizar los datos:', error);
+                }
             }
-        }
-    }
-});
-    
-            function updateChart() {
+
+            async function updateChart() {
                 const startDate = document.getElementById('startDate').value;
                 const endDate = document.getElementById('endDate').value;
-    
-                if (startDate && endDate) {
-                    // Filtrar los datos basados en las fechas seleccionadas
-                    const filteredData = labels.map((label, index) => {
-                        if (label >= startDate && label <= endDate) {
-                            return { date: label, value: data[index] };
+
+                const data = await ObtenerUsuariosRegistrados();
+                if (!data) throw new Error('No se pudieron obtener los datos de usuarios registrados');
+
+                const filteredData = data.filter(item => {
+                    const fecha = new Date(item.FechaRegistro).toISOString().split('T')[0];
+                    return (!startDate || fecha >= startDate) && (!endDate || fecha <= endDate);
+                });
+
+                const fechas = filteredData.map(item => new Date(item.FechaRegistro).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }));
+                const cantidades = filteredData.map(item => item.CantidadUsuariosRegistrados);
+
+                if (chart) {
+                    chart.destroy();
+                }
+
+                const ctx = document.getElementById('miGrafica').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: fechas,
+                        datasets: [{
+                            label: 'Usuarios Registrados por Fecha',
+                            data: cantidades,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
-                        return null;
-                    }).filter(item => item !== null);
-    
-                    // Actualizar los datos del gráfico
-                    chart.data.labels = filteredData.map(item => item.date);
-                    chart.data.datasets[0].data = filteredData.map(item => item.value);
-                    chart.update();
+                    }
+                });
+            }
+
+            fetchDataAndRenderChart()
+            // updateChart()
+        </script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+        <script type="module">
+            import { ObtenerUsuariosRegistrados } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
+
+            // Inicializa la gráfica con datos vacíos
+            const ctx = document.getElementById('miGrafica').getContext('2d');
+            let chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: "Usuarios registrados",
+                        backgroundColor: ["blue", "green", "yellow", "aqua"],
+                        data: []
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 20
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Función para actualizar la gráfica con datos del servidor
+            async function updateChart() {
+
+                try {
+                    const productos = await ObtenerUsuariosRegistrados();
+                    console.log(productos);
+                    if (productos) {
+                        const labels = productos.map(product => product.FechaRegistro);
+                        const values = productos.map(product => product.CantidadUsuariosRegistrados);
+
+                        for (let i = 0; i < labels.length; i++) {
+                            console.log(labels[i]);
+                            
+                        }
+
+                        chart.data.labels = labels;
+                        chart.data.datasets[0].data = values;
+                        chart.update();
+                    } else {
+                        console.error('Error en la respuesta del servidor.');
+                    }
+                } catch (error) {
+                    console.error('Error al obtener los datos:', error);
                 }
             }
+
+            window.updateChart = updateChart;
+
         </script>
 </html>

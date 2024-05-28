@@ -47,18 +47,32 @@ function mostrarDetallesDelProducto(product) {
     productDetailsContainer.innerHTML = html;
 
     document.getElementById("btnAgregarAlCarrito").addEventListener('click', async ()=>{
-        let producto = {
-            'Numero': product.Numero,
-            'Nombre': product.Nombre,
-            'PrecioUnitario': product.PrecioUnitario,
-            'Cantidad': 1,
-            'Imagen': product.Imagen
+        try{
+            const data = await ObtenerUsuarioLoggeado();
+
+            if(!data){
+                alert("Debes de inciar sesión para usar el carrito")
+                window.location.href = 'http://localhost/ChanzaShop/App/View/login.html';
+
+            }
+            else{
+                let producto = {
+                    'Numero': product.Numero,
+                    'Nombre': product.Nombre,
+                    'PrecioUnitario': product.PrecioUnitario,
+                    'Cantidad': 1,
+                    'Imagen': product.Imagen
+                }
+        
+                let response = await AgregarProductoAlCarrito(JSON.parse(JSON.stringify(producto)));
+        
+        
+                alert(response);
+            }
+        }catch (error) {
+            console.error('Error al obtener el usuario loggeado:', error);
         }
-
-        let response = await AgregarProductoAlCarrito(JSON.parse(JSON.stringify(producto)));
-
-
-        alert(response);
+        
     });
 }
 

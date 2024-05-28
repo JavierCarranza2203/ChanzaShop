@@ -52,6 +52,19 @@ export async function ObtenerProducto(id) {
     }
 }
 
+export async function ObtenerTodosProducto(id) {
+    const response = await fetch(server + ':3000/adminService/getAllProducts', {
+        method:"POST"
+    });
+
+    if (response.ok) {
+        const producto = await response.json();
+        return producto;
+    } else {
+        return false;
+    }
+}
+
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
     data.append('action', 'shop');
@@ -164,5 +177,21 @@ export async function CerrarSesion() {
     } else {
         // Manejar el caso en que ocurra un error al cerrar la sesión
         console.error('Error al cerrar sesión:', response.statusText);
+    }
+}
+
+
+
+
+
+
+export async function ObtenerUsuariosRegistrados() {
+    const response = await fetch(server + ':3000/getRegisteredUsersData');
+    console.log(response);
+    if (response.ok) {
+        const productos = await response.json();
+        return productos;
+    } else {
+        return false;
     }
 }

@@ -1,0 +1,102 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 0 5px #8a8a8a;
+    height: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 0;
+    width: 100%;
+}
+
+.header img {
+    width: 95px; /* Ajusta este valor si necesitas cambiar el tamaño del logo */
+    height: auto;
+}
+
+.header__icons-container {
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.5vw;
+    gap: 20px;
+}
+
+.titulo {
+    margin: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    margin: 20px 0;
+}
+
+.form-group label {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+#category {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+    margin-right: 10px;
+}
+
+#category:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+#button1 {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#button1:hover {
+    background-color: #0056b3;
+}
+
+#button1:active {
+    transform: scale(0.98);
+}
+
+.productos-mas-vendidos {
+    width: 80%;
+    margin-top: 20px;
+}
+
+canvas {
+    max-height: 70vh;
+    width: 100%;
+}
