@@ -69,3 +69,58 @@ body {
 .modal-buttons button {
     width: calc(50% - 5px);
 }
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #001933; /* Cambia este color por el color que tenías antes */
+    color: #ffffff; /* Color del texto en el footer */
+}
+
+footer .footer-logo {
+    width: 130px;
+    height: 130px;
+}
+
+footer .contact-section {
+    display: flex;
+    flex-direction: column; /* Asegura que el texto y los enlaces estén en columna */
+    align-items: center; /* Alinea el contenido al centro */
+    gap: 10px;
+}
+
+footer .contact-title {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffffff; /* Color del texto "Contáctanos" */
+    text-align: center; /* Alinea el texto al centro */
+}
+
+footer .social-media {
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para que los enlaces estén uno sobre el otro */
+    gap: 10px; /* Ajustar el espacio entre los enlaces */
+    align-items: center; /* Asegura que los enlaces estén centrados */
+}
+
+footer .social-media a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s ease;
+    text-align: center; /* Asegura que el texto del enlace esté centrado */
+}
+
+footer .social-media a:hover {
+    color: #007bff; /* Cambia este color por el que prefieras para el hover */
+}
+
+footer .social-media i {
+    font-size: 1.5em;
+}
