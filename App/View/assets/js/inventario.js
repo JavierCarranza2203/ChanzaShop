@@ -6,9 +6,10 @@ document.addEventListener("DOMContentLoaded", async function() {
     const searchInput = document.getElementById("search");
 
     const response = await ObtenerTodosProducto()
-    console.log(response)
+    let data = response;
+    console.log(data);
     for(let key in data){
-        createRow(data[key])
+        inventoryBody.appendChild(createRow(data[key]));
     }
 
     // Obtener los productos del almacenamiento local al cargar la página
@@ -101,13 +102,13 @@ document.addEventListener("DOMContentLoaded", async function() {
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
             <td>${inventoryBody.childElementCount + 1}</td>
-            <td>${product.nombre}</td>
-            <td>${product.descripcion}</td>
-            <td>${product.precio}</td>
-            <td>${product.cantidad}</td>
-            <td>${product.categoria}</td>
+            <td>${product.Nombre}</td>
+            <td>${product.Descripcion}</td>
+            <td>${product.PrecioUnitario}</td>
+            <td>${product.Categoria}</td>
             <td><button class="delete-product">Eliminar</button></td>
         `;
+
         return newRow;
     }
 

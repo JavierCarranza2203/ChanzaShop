@@ -184,42 +184,27 @@ server.get("/getBestProductsByCategory", (req, res) => {
     }
 });
 
-server.post("/adminService/:action", async (req, res) => {
+server.post("/getAllProducts", async (req, res) => {
     try {
-        const username = req.query.username;
-        const islogged = req.query.islogged;
-        const userrole = req.query.role;
-        const action = req.params.action;
-        let message = "Respuesta desconocida";
+        const query = "SELECT * FROM allProducts";
 
-        const adminService = new AdminService(username, islogged, userrole);
-
-        switch (action) {
-            case 'getAllProducts':
-                message = await AdminService.handlePromise(adminService.getAllProducts());
-                break;
-            case 'addProduct':
-                message = await AdminService.handlePromise(adminService.addProduct());
-                break;
-            case 'deleteProduct':
-                const idProduct = req.query.idProduct;
-                message = await AdminService.handlePromise(adminService.deleteProduct(idProduct));
-                break;
-            case 'updateProduct':
-                message = await AdminService.handlePromise(adminService.updateProduct());
-                break;
-            case 'getAllProducts':
-                message = await AdminService.handlePromise(adminService.getAllProducts());
-                break;
-            case 'getBestProducts':
-                message = await AdminService.handlePromise(adminService.getBestProducts());
-                break;
-            default:
-                res.status(404).json({ error: 'Error de lado del cliente. La acción no se reconoce' });
+        connection.query(query, (err, result) => {
+            if(!result[0]){
+                res.status(404).json({ error: 'No hay productos disponibles' });
                 return;
-        }
+            }
 
-        res.json(message);
+            const data = result;
+            let productsList = [];
+
+            for (let i = 0; i < data.length; i++) {
+                let product = new Product(data[i]);
+
+                productsList[i] = product.ToJSON();
+            }
+
+            res.json(productsList);
+        }); 
     }
     catch (e) {
         console.error('Error en la aplicación:', e.message);
@@ -250,10 +235,6 @@ process.on('unhandledRejection', (error, promise) => {
     console.log("==================================");
     console.log('El error fué: ', error);
 });
-
-
-
-
 
 server.get("/getRegisteredUsersData",  (req, res) => {
     try {
