@@ -1,6 +1,7 @@
+import { ObtenerUsuarioLoggeado } from "./functions/peticiones.js";
+
 window.addEventListener('load', async() =>{
     const data = await ObtenerUsuarioLoggeado();
-
     if(data['TipoUsuario'] !== 'admin') {
         let iconos = document.querySelectorAll('.btn');
 
