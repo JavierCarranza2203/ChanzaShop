@@ -266,18 +266,8 @@ server.get("/getRegisteredUsersData",  (req, res) => {
 
             const data = result[0]; 
 
-            const productsList = [];
-
-            for (let i = 0; i < data.length; i++) {
-                let product = new Product(data[i]);
-
-                productsList[i] = product.ToJSON();
-            }
-
-            res.json(productsList);
+            res.json(data);
         });
-
-
     }
     catch (e) {
         console.error('Error en la aplicación:', e.message);
