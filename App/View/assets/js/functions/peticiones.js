@@ -52,18 +52,20 @@ export async function ObtenerProducto(id) {
     }
 }
 
-export async function ObtenerTodosProducto(id) {
-    const response = await fetch(server + ':3000/adminService/getAllProducts', {
+export async function ObtenerTodosProducto() {
+    const response = await fetch(server + ':3000/getAllProducts', {
         method:"POST"
     });
-
     if (response.ok) {
         const producto = await response.json();
+        console.log(producto)
         return producto;
+        
     } else {
         return false;
     }
 }
+
 
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
