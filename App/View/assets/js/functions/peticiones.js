@@ -166,3 +166,19 @@ export async function CerrarSesion() {
         console.error('Error al cerrar sesión:', response.statusText);
     }
 }
+
+
+
+
+
+
+export async function ObtenerUsuariosRegistrados() {
+    const response = await fetch(server + ':3000/getRegisteredUsersData');
+    console.log(response);
+    if (response.ok) {
+        const productos = await response.json();
+        return productos;
+    } else {
+        return false;
+    }
+}

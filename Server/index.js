@@ -35,7 +35,7 @@ server.get('/test_connection', (req, res) => {
             connectedToDatabase: connection.authorized,
         });
     }
-    catch(error) {
+    catch (error) {
         res.status(500).json({
             message: `Algo está mal!`,
             connectedToDatabase: false,
@@ -49,22 +49,22 @@ server.get('/login', (req, res) => {
 
         const query = 'SELECT Usuario, Password FROM cliente WHERE Usuario = ?';
 
-        if(SecurityService.IsValidString(username) && SecurityService.IsValidPassword(password)) {
+        if (SecurityService.IsValidString(username) && SecurityService.IsValidPassword(password)) {
             connection.query(query, [username, password], (err, result) => {
-                if(err){
+                if (err) {
                     console.error('Error al ejecutar la consulta:', err);
                     res.status(500).json({ error: 'Error interno del servidor' });
                     return;
                 }
 
-                if(result == "") { 
+                if (result == "") {
                     res.status(401).json({ error: 'El usuario no existe' });
-                    return; 
+                    return;
                 }
 
                 const data = JSON.parse(JSON.stringify(result[0]));
 
-                if(data["Password"] == password) {
+                if (data["Password"] == password) {
                     const userFound = new User(0, data["Usuario"], "custom");
 
                     res.json(userFound.ToJSON());
@@ -78,7 +78,7 @@ server.get('/login', (req, res) => {
             throw Error("El valor no es permitido");
         }
     }
-    catch(e) {
+    catch (e) {
         console.error('Error en la aplicación:', e.message);
         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
     }
@@ -89,12 +89,12 @@ server.get("/getProductById", (req, res) => {
         const query = 'CALL getProductByID(?)';
         const productId = req.query.id;
 
-        if(SecurityService.IsValidNumber(productId)) {
-            connection.query(query, [productId] , (err, result) =>{
+        if (SecurityService.IsValidNumber(productId)) {
+            connection.query(query, [productId], (err, result) => {
 
-                if(!result[0][0]) {
+                if (!result[0][0]) {
                     res.status(404).json({ error: 'El producto no es existe' });
-                    return; 
+                    return;
                 }
 
                 const data = JSON.parse(JSON.stringify(result[0][0]));
@@ -108,7 +108,7 @@ server.get("/getProductById", (req, res) => {
             throw Error("El valor no es permitido");
         }
     }
-    catch(e) {
+    catch (e) {
         console.error('Error en la aplicación:', e.message);
         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
     }
@@ -119,18 +119,18 @@ server.get("/getProductsByCategory", (req, res) => {
         const query = 'CALL getProductsByCategory(?)';
         const categoryName = req.query.category;
 
-        if(SecurityService.IsValidString(categoryName)) {
+        if (SecurityService.IsValidString(categoryName)) {
             connection.query(query, [categoryName], (err, result) => {
-                if(!result[0][0]) {
+                if (!result[0][0]) {
                     res.status(404).json({ error: 'La categoría no existe o no hay productos disponibles' });
-                    return; 
+                    return;
                 }
 
                 const data = result[0];
 
                 const productsList = [];
 
-                for(let i = 0; i < data.length ;i++) {
+                for (let i = 0; i < data.length; i++) {
                     let product = new Product(data[i]);
 
                     productsList[i] = product.ToJSON();
@@ -139,8 +139,8 @@ server.get("/getProductsByCategory", (req, res) => {
                 res.json(productsList);
             });
         }
-        else { 
-            throw Error("El valor no es permitido"); 
+        else {
+            throw Error("El valor no es permitido");
         }
     }
     catch (e) {
@@ -154,18 +154,18 @@ server.get("/getBestProductsByCategory", (req, res) => {
         const query = 'CALL getBestProductsByCategory(?)';
         const category = req.query.category;
 
-        if(SecurityService.IsValidString(category)) {
+        if (SecurityService.IsValidString(category)) {
             connection.query(query, [category], (err, result) => {
-                if(!result[0][0]) {
+                if (!result[0][0]) {
                     res.status(404).json({ error: 'La categoría no existe o no hay productos disponibles' });
-                    return; 
+                    return;
                 }
 
                 const data = result[0];
 
                 const productsList = [];
 
-                for(let i = 0; i < data.length ;i++) {
+                for (let i = 0; i < data.length; i++) {
                     let product = new Product(data[i]);
 
                     productsList[i] = product.ToJSON();
@@ -178,7 +178,7 @@ server.get("/getBestProductsByCategory", (req, res) => {
             throw new Error("El valor no es permitido");
         }
     }
-    catch(e) {
+    catch (e) {
         console.error('Error en la aplicación:', e.message);
         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' })
     }
@@ -194,25 +194,25 @@ server.post("/adminService/:action", async (req, res) => {
 
         const adminService = new AdminService(username, islogged, userrole);
 
-        switch(action){
+        switch (action) {
             case 'getAllProducts':
-                    message = await AdminService.handlePromise(adminService.getAllProducts());
+                message = await AdminService.handlePromise(adminService.getAllProducts());
                 break;
             case 'addProduct':
-                    message = await AdminService.handlePromise(adminService.addProduct());
+                message = await AdminService.handlePromise(adminService.addProduct());
                 break;
             case 'deleteProduct':
-                    const idProduct = req.query.idProduct;
-                    message = await AdminService.handlePromise(adminService.deleteProduct(idProduct));
+                const idProduct = req.query.idProduct;
+                message = await AdminService.handlePromise(adminService.deleteProduct(idProduct));
                 break;
             case 'updateProduct':
-                    message = await AdminService.handlePromise(adminService.updateProduct());
+                message = await AdminService.handlePromise(adminService.updateProduct());
                 break;
             case 'getAllProducts':
-                    message = await AdminService.handlePromise(adminService.getAllProducts());
+                message = await AdminService.handlePromise(adminService.getAllProducts());
                 break;
             case 'getBestProducts':
-                    message = await AdminService.handlePromise(adminService.getBestProducts());
+                message = await AdminService.handlePromise(adminService.getBestProducts());
                 break;
             default:
                 res.status(404).json({ error: 'Error de lado del cliente. La acción no se reconoce' });
@@ -221,7 +221,7 @@ server.post("/adminService/:action", async (req, res) => {
 
         res.json(message);
     }
-    catch(e) {
+    catch (e) {
         console.error('Error en la aplicación:', e.message);
         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
     }
@@ -241,7 +241,7 @@ server.post('/buyOrder', async (req, res) => {
 
         res.status(200).json({ message: "Compra realizada correctamente" });
     }
-    catch(e) {
+    catch (e) {
         console.error('Error en la aplicación:', e.message);
         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
     }
@@ -250,5 +250,39 @@ server.post('/buyOrder', async (req, res) => {
 process.on('unhandledRejection', (error, promise) => {
     console.log('Error en este código: ', promise);
     console.log("==================================");
-    console.log('El error fué: ', error );
+    console.log('El error fué: ', error);
+});
+
+
+
+
+
+server.get("/getRegisteredUsersData",  (req, res) => {
+    try {
+        const query = 'CALL getRegisteredUsersData';
+        connection.query(query, (err, result) => {
+            if (!result[0][0]) {
+                res.status(404).json({ error: ' no hay productos disponibles' });
+                return;
+            }   
+
+            const data = result[0]; 
+
+            const productsList = [];
+
+            for (let i = 0; i < data.length; i++) {
+                let product = new Product(data[i]);
+
+                productsList[i] = product.ToJSON();
+            }
+
+            res.json(productsList);
+        });
+
+
+    }
+    catch (e) {
+        console.error('Error en la aplicación:', e.message);
+        res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' })
+    }
 });
