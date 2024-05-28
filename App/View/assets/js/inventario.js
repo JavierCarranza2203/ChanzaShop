@@ -1,7 +1,15 @@
-document.addEventListener("DOMContentLoaded", function() {
+import { ObtenerTodosProducto } from "./functions/peticiones.js";
+
+document.addEventListener("DOMContentLoaded", async function() {
     const addProductButton = document.getElementById("add-product");
     const inventoryBody = document.getElementById("inventory-body");
     const searchInput = document.getElementById("search");
+
+    const response = await ObtenerTodosProducto()
+    console.log(response)
+    for(let key in data){
+        createRow(data[key])
+    }
 
     // Obtener los productos del almacenamiento local al cargar la página
     const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
