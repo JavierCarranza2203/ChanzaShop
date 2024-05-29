@@ -66,6 +66,20 @@ export async function ObtenerTodosProducto() {
     }
 }
 
+export async function ObtenerVentas() {
+    const response = await fetch(server + ':3000/getAllSales');
+    if (response.ok) {
+        const producto = await response.json();
+        return producto; 
+    } else {
+        return false;
+    }
+}
+
+
+
+
+
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
     data.append('action', 'shop');
