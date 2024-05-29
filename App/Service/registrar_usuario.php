@@ -23,17 +23,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telefono = validarEntrada($_POST['telefono']);
     $usuario = validarEntrada($_POST['usuario']);
     $contrasena = validarEntrada($_POST['contrasena']);
+    $FechaActual= date("Y-m-d");
 
     // No aplicar hash a la contraseña, simplemente se pasa tal cual
     $plain_password = $contrasena;
 
     // Consulta SQL preparada para insertar los datos en la tabla cliente
-    $sql = "INSERT INTO cliente (Nombre, ApellidoPaterno, ApellidoMaterno, Email, Telefono, Usuario, Password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO cliente (Nombre, ApellidoPaterno, ApellidoMaterno, Email, Telefono, Usuario, Password, FechaRegistro) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Preparar la consulta
     if ($stmt = $conexion->prepare($sql)) {
         // Vincular los parámetros y ejecutar la consulta
-        $stmt->bind_param("sssssss", $nombre, $apellido_paterno, $apellido_materno, $email, $telefono, $usuario, $plain_password);
+        $stmt->bind_param("ssssssss", $nombre, $apellido_paterno, $apellido_materno, $email, $telefono, $usuario, $plain_password, $FechaActual);
         if ($stmt->execute()) {
             // Redireccionar a la página de registro exitoso
             header("Location: ../View/registro_exitoso.html"); // Ruta ajustada aquí
