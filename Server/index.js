@@ -257,11 +257,6 @@ server.get("/getRegisteredUsersData",  (req, res) => {
 });
 
 
-
-
-
-
-
 server.get("/getAllSales", async (req, res) => {
     try {
         const query = 'CALL MostrasVentas';
