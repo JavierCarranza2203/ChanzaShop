@@ -195,24 +195,19 @@ export async function CerrarSesion() {
     }
 }
 
-
-
-
-
-
-// export async function ObtenerUsuariosRegistrados() {
-//     const response = await fetch(server + ':3000/getRegisteredUsersData');
-//     console.log(response);
-//     if (response.ok) {
-//         const productos = await response.json();
-//         return productos;
-//     } else {
-//         return false;
-//     }
-// }
-
 export async function ObtenerUsuariosRegistrados(fechainicio, fechafinal) {
     const response = await fetch(server + ':3000/getRegisteredUsersData?fechainicio=' + fechainicio + '&fechafinal='+ fechafinal);
+    console.log(response);
+    if (response.ok) {
+        const productos = await response.json();
+        return productos;
+    } else {
+        return false;
+    }
+}
+
+export async function ObtenerVentasGrafica(fechainicio, fechafinal) {
+    const response = await fetch(server + ':3000/getSalesByDateRange?fechainicio=' + fechainicio + '&fechafinal='+ fechafinal);
     console.log(response);
     if (response.ok) {
         const productos = await response.json();

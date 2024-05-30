@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="https://kit.fontawesome.com/f8571caff0.js" crossorigin="anonymous"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            display: contents;
+        }
+
+        .titulo {
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .filter-container {
+            display: flex;
+            font-weight: bold;
+        }
+
+        #fechaInicio {
+            margin-left: 30px;
+        }
+
+        #fechaFinal {
+            margin-left: 30px;
+        }
+
+        button {
+            margin-right: 30px;
+            margin-left: 20px;
+            font-weight: bold;
+            border-width: 2px;
+            border-color: black;
+            border-style: solid;
+            color: black;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html"><img src="./assets/icons/chanza_logo.png" alt="Logo"
+                style="width: 100px; height: 60px;"></a>
+        <div class="header__icons-container">
+            <a href="./usuarios-registrados.html" class="btn"><i class="fa-solid fa-chart-simple"></i></a>
+            <a href="./productos-mas-vendidos.html" class="btn"><i class="fa-solid fa-chart-pie"></i></a>
+            <a href="./inventory.html" class="btn"><i class="fa-solid fa-table-list"></i></a>
+            <a href="./ventas.html" class="btn"><i class="fa-solid fa-check-square"></i></a>
+            <a href="./shopping-car.html" class="btn1"> <i class="fa-solid fa-cart-shopping"></i></a>
+            <a id="btnMiPerfil"><i class="fa-solid fa-circle-user"></i></a>
+        </div>
+    </header>
+
+    <div class="titulo">
+        <h1><i class="fa-solid fa-chart-simple"></i>Ventas</h1>
+    </div>
+    <div class="ventas">
+        <div class="filter-container">
+            <button id="diaBtn">Día</button>
+            <button id="mesBtn">Mes</button>
+            <button id="anoBtn">Año</button>
+            <label for="fechainicio">Fecha Inicio:</label>
+            <input type="date" id="fechainicio">
+            <label for="fechafinal">Fecha Final:</label>
+            <input type="date" id="fechafinal">
+            <button onclick="updateChart()">Aplicar</button>
+        </div>
+        <canvas id="miGrafica" width="1000" height="300"></canvas>
+    </div>
+</body>
+
+
+<script type="module">
+    import { ObtenerVentasGrafica } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
+    // Inicializa la gráfica con datos vacíos
+    const ctx = document.getElementById('miGrafica').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Ventas",
+                backgroundColor: ["blue", "green", "yellow", "aqua"],
+                data: []
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
+            }
+        }
+    });
+    // Función para actualizar la gráfica indicandole las fechas
+    async function updateChart() {
+        const fechainicio = document.getElementById('fechainicio').value;
+        console.log(fechainicio);
+        const fechafinal = document.getElementById('fechafinal').value;
+        console.log(fechafinal);
+        if (fechainicio >= fechafinal) {
+            alert('La fecha de inicio debe ser menor que la fecha final.');
+            return; // Salir de la función si las fechas no son válidas
+        }
+        try {
+            const productos = await ObtenerVentasGrafica(fechainicio, fechafinal);
+            console.log(productos);
+            if (productos) {
+                const labels = productos.map(product => product.Fecha);
+                const values = productos.map(product => product.CantidadVentas);
+
+                for (let i = 0; i < labels.length; i++) {
+                    console.log(labels[i]);
+
+                }
+
+                chart.data.labels = labels;
+                chart.data.datasets[0].data = values;
+                chart.update();
+            } else {
+                console.error('Error en la respuesta del servidor.');
+                alert('No hay ventas que mostrar en este rango');
+            }
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
+    window.updateChart = updateChart;
+
+
+
+    function setFechaIntervalo(intervalo) {
+        const hoy = new Date();
+        let fechainicio, fechafinal;
+
+        switch (intervalo) {
+            case 'dia':
+                fechainicio = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                console.log(fechainicio);
+                fechafinal = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                console.log(fechafinal);
+                break;
+            case 'mes':
+                fechainicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+                fechafinal = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+                break;
+            case 'ano':
+                fechainicio = new Date(hoy.getFullYear(), 0, 1);
+                fechafinal = new Date(hoy.getFullYear(), 11, 31);
+                break;
+        }
+
+        fechainicio = fechainicio.toISOString().split('T')[0];
+        console.log(fechainicio);
+        fechafinal = fechafinal.toISOString().split('T')[0];
+        console.log(fechafinal);
+
+        updateChart2(fechainicio, fechafinal);
+    }
+
+    document.getElementById('diaBtn').addEventListener('click', () => setFechaIntervalo('dia'));
+    document.getElementById('mesBtn').addEventListener('click', () => setFechaIntervalo('mes'));
+    document.getElementById('anoBtn').addEventListener('click', () => setFechaIntervalo('ano'));
+
+    async function updateChart2(fechainicio, fechafinal) {
+        try {
+            const productos = await ObtenerVentasGrafica(fechainicio, fechafinal);
+            console.log(productos);
+            if (productos) {
+                const labels = productos.map(product => product.Fecha);
+                const values = productos.map(product => product.CantidadVentas);
+
+                for (let i = 0; i < labels.length; i++) {
+                    console.log(labels[i]);
+
+                }
+
+                chart.data.labels = labels;
+                chart.data.datasets[0].data = values;
+                chart.update();
+            } else {
+                console.error('Error en la respuesta del servidor.');
+                alert('No hay ventas que mostrar en este rango');
+            }
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
+</script>
+<script src="./assets/js/permisos.js" type="module"></script>
+<script src="./assets/js/btnperfil.js" type="module"></script>
+
+
+</html>
