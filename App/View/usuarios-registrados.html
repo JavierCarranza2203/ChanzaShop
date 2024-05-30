@@ -39,7 +39,8 @@
         }
 
         button {
-            margin-left: 30px;
+            margin-right: 30px;
+            margin-left: 20px;
             font-weight: bold;
             border-width: 2px;
             border-color: black;
@@ -69,10 +70,9 @@
     </div>
     <div class="usuarios-registrados">
         <div class="filter-container">
-
-
-
-
+            <button id="diaBtn">Día</button>
+            <button id="mesBtn">Mes</button>
+            <button id="anoBtn">Año</button>
             <label for="fechainicio">Fecha Inicio:</label>
             <input type="date" id="fechainicio">
             <label for="fechafinal">Fecha Final:</label>
@@ -90,7 +90,6 @@
 
 <script type="module">
     import { ObtenerUsuariosRegistrados } from '/Chanzashop/App/View/assets/js/functions/peticiones.js'; // Importa la función desde el módulo
-
     // Inicializa la gráfica con datos vacíos
     const ctx = document.getElementById('miGrafica').getContext('2d');
     let chart = new Chart(ctx, {
@@ -116,18 +115,16 @@
             }
         }
     });
-
-    // Función para actualizar la gráfica con datos del servidor
+    // Función para actualizar la gráfica indicandole las fechas
     async function updateChart() {
-
-
         const fechainicio = document.getElementById('fechainicio').value;
         console.log(fechainicio);
         const fechafinal = document.getElementById('fechafinal').value;
         console.log(fechafinal);
-
-
-
+        if (fechainicio >= fechafinal) {
+            alert('La fecha de inicio debe ser menor que la fecha final.');
+            return; // Salir de la función si las fechas no son válidas
+        }
         try {
             const productos = await ObtenerUsuariosRegistrados(fechainicio, fechafinal);
             console.log(productos);
@@ -145,14 +142,73 @@
                 chart.update();
             } else {
                 console.error('Error en la respuesta del servidor.');
+                alert('No hay usuarios que mostrar en este rango');
             }
         } catch (error) {
             console.error('Error al obtener los datos:', error);
         }
     }
-
     window.updateChart = updateChart;
 
+
+
+    function setFechaIntervalo(intervalo) {
+        const hoy = new Date();
+        let fechainicio, fechafinal;
+
+        switch (intervalo) {
+            case 'dia':
+                fechainicio = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                console.log(fechainicio);
+                fechafinal = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+                console.log(fechafinal);
+                break;
+            case 'mes':
+                fechainicio = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+                fechafinal = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+                break;
+            case 'ano':
+                fechainicio = new Date(hoy.getFullYear(), 0, 1);
+                fechafinal = new Date(hoy.getFullYear(), 11, 31);
+                break;
+        }
+
+        fechainicio = fechainicio.toISOString().split('T')[0];
+        console.log(fechainicio);
+        fechafinal = fechafinal.toISOString().split('T')[0];
+        console.log(fechafinal);
+
+        updateChart2(fechainicio, fechafinal);
+    }
+
+    document.getElementById('diaBtn').addEventListener('click', () => setFechaIntervalo('dia'));
+    document.getElementById('mesBtn').addEventListener('click', () => setFechaIntervalo('mes'));
+    document.getElementById('anoBtn').addEventListener('click', () => setFechaIntervalo('ano'));
+
+    async function updateChart2(fechainicio, fechafinal) {
+        try {
+            const productos = await ObtenerUsuariosRegistrados(fechainicio, fechafinal);
+            console.log(productos);
+            if (productos) {
+                const labels = productos.map(product => product.FechaRegistro);
+                const values = productos.map(product => product.CantidadUsuariosRegistrados);
+
+                for (let i = 0; i < labels.length; i++) {
+                    console.log(labels[i]);
+
+                }
+
+                chart.data.labels = labels;
+                chart.data.datasets[0].data = values;
+                chart.update();
+            } else {
+                console.error('Error en la respuesta del servidor.');
+                alert('No hay usuarios que mostrar en este rango');
+            }
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
 </script>
 <script src="./assets/js/permisos.js" type="module"></script>
 <script src="./assets/js/btnperfil.js" type="module"></script>
