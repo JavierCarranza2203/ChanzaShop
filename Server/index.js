@@ -236,9 +236,41 @@ process.on('unhandledRejection', (error, promise) => {
     console.log('El error fué: ', error);
 });
 
+// server.get("/getRegisteredUsersData",  (req, res) => {
+//     try {
+//         const query = 'CALL getRegisteredUsersData';
+//         connection.query(query, (err, result) => {
+//             if (!result[0][0]) {
+//                 res.status(404).json({ error: ' no hay productos disponibles' });
+//                 return;
+//             }   
+
+//             const data = result[0]; 
+
+//             res.json(data);
+//         });
+//     }
+//     catch (e) {
+//         console.error('Error en la aplicación:', e.message);
+//         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' })
+//     }
+// });
+
+
+
 server.get("/getRegisteredUsersData",  (req, res) => {
+    const fechainicio= req.query.fechainicio;
+    console.log(fechainicio);
+    const fechafinal= req.query.fechafinal;
+    console.log(fechafinal);
+    
     try {
-        const query = 'CALL getRegisteredUsersData';
+        let query = 'CALL getRegisteredUsersData';
+        
+        if(fechainicio && fechafinal){
+            query= `CALL getRegisteredUsersDataByDateRange('${fechainicio}','${fechafinal}')`;
+        }
+
         connection.query(query, (err, result) => {
             if (!result[0][0]) {
                 res.status(404).json({ error: ' no hay productos disponibles' });
