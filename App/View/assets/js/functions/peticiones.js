@@ -241,3 +241,13 @@ export async function AgregarNuevoProducto(producto) {
         });
     }
 }
+
+export async function ObtenerVentas() {
+    const response = await fetch(server + ':3000/getAllSales');
+    if (response.ok) {
+        const producto = await response.json();
+        return producto; 
+    } else {
+        return false;
+    }
+}

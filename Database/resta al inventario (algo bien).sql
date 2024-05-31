@@ -48,7 +48,7 @@ FROM
     producto P ON P.IdProducto = DV.IdProducto JOIN
     categoria C ON C.IdCategoria = P.IdCategoria
 WHERE 
-	C.Nombre = category
+	C.Nombre = category AND P.enStock > 0
 GROUP BY 
 	P.Nombre, P.nombreImg
 ORDER BY
@@ -364,7 +364,7 @@ CREATE TRIGGER `before_update_producto` BEFORE UPDATE ON `producto` FOR EACH ROW
     END IF;
 
     -- Asegurarse de que EnStock sea mayor que 1
-    IF NEW.EnStock <= 0 THEN
+    IF NEW.EnStock < 0 THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El valor de EnStock debe ser mayor que 0.';
     END IF;
 END

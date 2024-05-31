@@ -17,7 +17,7 @@
             // $User = self::UserToJson("Desconocido", "Desconocido", false);
 
             if($userName === "Chanza Admin") {
-                if($password === "chanzaAdmin_2024*")
+                if($password === "1234")
                 {
                     $User = self::UserToJson("Administrador", "admin", true, []);
                 }
