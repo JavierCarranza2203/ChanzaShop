@@ -91,7 +91,7 @@ export async function buyOrder(order, userName, connection) {
                             reject(error);
                         }
                         else {
-                            resolve('Compra realizada correctamente');
+                            resolve(true);
                         }
                     });
                 }

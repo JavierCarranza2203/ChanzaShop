@@ -1,4 +1,5 @@
 <?php
+try {
 require_once("User.php");
 
 // Inicia la sesión si no está iniciada
@@ -85,8 +86,6 @@ if (isset($_POST['action'])) {
         http_response_code(200);
         echo json_encode("Se ha cerrado la sesión");
     }
-    
-    
     else if($action === 'shop') {
         $producto = $_POST['producto'] ?? null;
         $shopAction = $_POST['shopAction'];
@@ -109,5 +108,10 @@ if (isset($_POST['action'])) {
     // Devuelve un error si no se proporciona una acción
     http_response_code(400);
     echo json_encode("Se requiere una acción");
+}
+}
+catch(Exception $e) {
+    http_response_code(500);
+    echo json_encode($e->getMessage());
 }
 ?>

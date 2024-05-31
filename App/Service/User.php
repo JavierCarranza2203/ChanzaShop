@@ -82,7 +82,7 @@
                 return $message;
             }
             catch(Exception $e) {
-                return "Hubo un error: " . $e->getMessage();
+                throw new Exception("Hubo un error: " . $e->getMessage());
             }
         }
 

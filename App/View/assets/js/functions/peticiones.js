@@ -66,20 +66,6 @@ export async function ObtenerTodosProducto() {
     }
 }
 
-export async function ObtenerVentas() {
-    const response = await fetch(server + ':3000/getAllSales');
-    if (response.ok) {
-        const producto = await response.json();
-        return producto; 
-    } else {
-        return false;
-    }
-}
-
-
-
-
-
 export async function AgregarProductoAlCarrito(producto) {
     const data = new FormData();
     data.append('action', 'shop');
@@ -173,7 +159,13 @@ export async function RealizarCompra() {
     }
     else {
         const data = await response.json();
-        return data['error'];
+
+        if(data['error']) {
+            return data['error'];
+        }
+        else {
+            return data;
+        }
     }
 }
 
@@ -214,5 +206,38 @@ export async function ObtenerVentasGrafica(fechainicio, fechafinal) {
         return productos;
     } else {
         return false;
+    }
+}
+
+export async function AgregarNuevoProducto(producto) {
+
+    const data = new FormData();
+    data.append('name', producto.nombre);
+    data.append('description', producto.descripcion);
+    data.append('price', producto.precio);
+    data.append('category', producto.categoria);
+    data.append('quantity', producto.cantidad);
+
+    const response = await fetch(server + '/ChanzaShop/App/Service/AddProductService.php', {
+        method: 'POST',
+        body: data
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(response.ok) {
+        Swal.fire({
+            title: 'Producto Agregado',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    }
+    else {
+        Swal.fire({
+            title: res['error'],
+            icon: 'error',
+            showConfirmButton: true
+        });
     }
 }

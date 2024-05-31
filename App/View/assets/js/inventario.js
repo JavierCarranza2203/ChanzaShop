@@ -1,4 +1,4 @@
-import { ObtenerTodosProducto } from "./functions/peticiones.js";
+import { AgregarNuevoProducto, ObtenerTodosProducto } from "./functions/peticiones.js";
 
 document.addEventListener("DOMContentLoaded", async function() {
     const addProductButton = document.getElementById("add-product");
@@ -7,21 +7,37 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     const response = await ObtenerTodosProducto()
     let data = response;
-    console.log(data);
     for(let key in data){
         inventoryBody.appendChild(createRow(data[key]));
     }
 
-    // Obtener los productos del almacenamiento local al cargar la página
-    const savedProducts = JSON.parse(localStorage.getItem("products")) || [];
+    const deleteButtons = document.querySelectorAll('.delete-product');
 
-    // Llenar la tabla con los productos guardados
-    savedProducts.forEach(product => {
-        const newRow = createRow(product);
-        inventoryBody.appendChild(newRow);
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const productNumber = button.closest('tr').querySelector('td:first-child').textContent;
+            fetch(`http://localhost:3000/deleteProduct?id=${productNumber}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al eliminar el producto');
+                }
+
+                Swal.fire({
+                    title: 'Producto Eliminado',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Manejar el error si es necesario
+            });
+        });
     });
 
-    addProductButton.addEventListener("click", function() {
+
+    addProductButton.addEventListener("click", async function() {
         Swal.fire({
             title: 'Agregar Producto',
             html:
@@ -31,8 +47,8 @@ document.addEventListener("DOMContentLoaded", async function() {
                 '<input id="cantidad" class="swal2-input" style="text-align: center; width: 80%;" placeholder="Cantidad">' +
                 '<select id="categoria" class="swal2-select" style="text-align: center; width: 80%;">' +
                     '<option value="" disabled selected>Categoria</option>' +
-                    '<option value="Vape">Vape</option>' +
-                    '<option value="Calzado">Calzado</option>' +
+                    '<option value="vapes">Vapes</option>' +
+                    '<option value="calzado">Calzado</option>' +
                 '</select>',
             focusConfirm: false,
             showCancelButton: true,
@@ -40,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             cancelButtonColor: '#dc3545', // Rojo
             confirmButtonText: 'Guardar',
             confirmButtonColor: '#28a745', // Verde
-            preConfirm: () => {
+            preConfirm: async () => {
                 const nombre = Swal.getPopup().querySelector('#nombre').value;
                 const descripcion = Swal.getPopup().querySelector('#descripcion').value;
                 const precio = Swal.getPopup().querySelector('#precio').value;
@@ -60,25 +76,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                     categoria
                 };
 
-                // Guardar el nuevo producto en el almacenamiento local
-                savedProducts.push(product);
-                localStorage.setItem("products", JSON.stringify(savedProducts));
-
-                // Crear una nueva fila para la tabla con los datos del producto
-                const newRow = createRow(product);
-
-                // Agregar la nueva fila a la tabla
-                inventoryBody.appendChild(newRow);
-
-                // Mostrar mensaje de éxito
-                Swal.fire({
-                    title: 'Producto Agregado',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-
-                return true;
+                await AgregarNuevoProducto(product);
             }
         });
     });
@@ -101,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     function createRow(product) {
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
-            <td>${inventoryBody.childElementCount + 1}</td>
+            <td>${product.Numero}</td>
             <td>${product.Nombre}</td>
             <td>${product.Descripcion}</td>
             <td>${product.PrecioUnitario}</td>

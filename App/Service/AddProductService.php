@@ -14,30 +14,33 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
+    $data = $_POST;
 
     if (json_last_error() !== JSON_ERROR_NONE) {
         echo json_encode(["error" => "Invalid JSON data"]);
         exit();
     }
 
-    if (isset($data['name'], $data['description'], $data['price'], $data['category'])) {
+    if (isset($data['name'], $data['description'], $data['price'], $data['category'], $data['quantity'])) {
         $name = $data['name'];
         $description = $data['description'];
         $price = $data['price'];
         $category = $data['category'];
+        $quantity = $data['quantity'];
 
-        $stmt = $conn->prepare("CALL addNewProduct(?, ?, ?, ?)");
+        $stmt = $conn->prepare("CALL addNewProduct(?, ?, ?, ?, ?)");
         if (!$stmt) {
+            http_response_code(401);
             echo json_encode(["error" => "Prepare failed: " . $conn->error]);
             exit();
         }
 
-        $stmt->bind_param("ssds", $name, $description, $price, $category);
+        $stmt->bind_param("ssdsi", $name, $description, $price, $category, $quantity);
 
         if ($stmt->execute()) {
             echo json_encode(["message" => "Producto agregado exitosamente"]);
         } else {
+            http_response_code(401);
             echo json_encode(["error" => "Error al agregar el producto: " . $stmt->error]);
         }
 

@@ -121,6 +121,11 @@ server.get("/getProductsByCategory", (req, res) => {
 
         if (SecurityService.IsValidString(categoryName)) {
             connection.query(query, [categoryName], (err, result) => {
+                if(err) {
+                    res.status(404).json({ error: err });
+                    return;
+                }
+
                 if (!result[0][0]) {
                     res.status(404).json({ error: 'La categoría no existe o no hay productos disponibles' });
                     return;
@@ -217,16 +222,25 @@ server.post('/buyOrder', async (req, res) => {
         const { order, userName } = req.body;
 
         if (!order || !userName) {
-            return res.status(400).json({ error: 'Se requieren los campos "order" y "userName".' });
+            res.status(400).json({ error: 'Se requieren los campos "order" y "userName".' });
+            return;
         }
 
         const reponse = await buyOrder(order, userName, connection);
 
-        res.status(200).json({ message: "Compra realizada correctamente" });
+        console.log(response);
+
+        if(reponse === true) {
+            res.status(200).json({ message: "Compra realizada correctamente" });
+        }
+        else {
+            res.status(404).json({ error: response });
+            return;
+        }
     }
     catch (e) {
         console.error('Error en la aplicación:', e.message);
-        res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' });
+        res.status(500).json({ error: e.message });
     }
 });
 
@@ -235,27 +249,6 @@ process.on('unhandledRejection', (error, promise) => {
     console.log("==================================");
     console.log('El error fué: ', error);
 });
-
-// server.get("/getRegisteredUsersData",  (req, res) => {
-//     try {
-//         const query = 'CALL getRegisteredUsersData';
-//         connection.query(query, (err, result) => {
-//             if (!result[0][0]) {
-//                 res.status(404).json({ error: ' no hay productos disponibles' });
-//                 return;
-//             }   
-
-//             const data = result[0]; 
-
-//             res.json(data);
-//         });
-//     }
-//     catch (e) {
-//         console.error('Error en la aplicación:', e.message);
-//         res.status(500).json({ error: 'Error interno en el servidor. Por favor, inténtalo de nuevo más tarde.' })
-//     }
-// });
-
 
 
 server.get("/getRegisteredUsersData",  (req, res) => {
