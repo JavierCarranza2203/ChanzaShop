@@ -232,6 +232,10 @@ export async function AgregarNuevoProducto(producto) {
             showConfirmButton: false,
             timer: 1500
         });
+
+        setTimeout(() => {
+            location.reload();
+        }, 1500);
     }
     else {
         Swal.fire({
